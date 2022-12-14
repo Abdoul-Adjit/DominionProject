@@ -1,0 +1,40 @@
+@startuml
+
+class Carte {
+    -int value
+    -int coût
+}
+class Joueur{
+
+    defausser() : void
+}
+class CarteVictoire extends Carte{
+    +CarteVictoire()
+}
+class CarteRoyaume extends Carte{
+    +CarteRoyaume()
+}
+class Trésor extends Carte{
+    +Trésor()
+}
+class CarteDomaine extends CarteVictoire{
+    +CarteDomaine()
+}
+class CarteDuché extends CarteVictoire{
+    +CarteDuché()
+}   
+class CarteProvince extends CarteVictoire{
+    +CarteProvince()
+}
+
+class Deck{
+    -Card[] cards
+    -int dealtIndex = 0
+    +void setDeckOfCards()
+    +Card dealCard()
+    +void shuffle()
+    +int remainingCards()
+
+}
+
+@enduml
