@@ -1,0 +1,67 @@
+@startuml
+abstract class Carte {
+nom : string
+coût : int
+}
+class Victoire extends Carte{
+points : int
+}
+abstract class Royaume extends Carte{}
+class Monnaie extends Carte{
+monnaie : int
+}
+
+class Royaume_attaque extends Royaume{}
+class Royaume_action extends Royaume{}
+class Royaume_reaction extends Royaume{}
+
+
+class Deck{
+Cartes : Array <Carte>
+trier()
+}
+class Defausse{
+
+Cartes : Array <Carte>
+}
+class PlateauDeJeu {
+ordreDeJeu : Array <Joueur>
+CartesDeJeu : Array <Array <Carte>>
+}
+class Rebut{
+
+Cartes : Array <Carte>
+}
+class MainDeCartes{
+
+CartesJoues : Array <Carte>
+CartesDispos : Array <Carte>
+
+}
+
+abstract class Joueur{
+achats : int
+actions : int
+resetAchat()
+resetAction()
+jouer()
+defausser()
+defausseADeck()
+piocher()
+
+}
+class Humain extends Joueur{}
+class IARobot extends Joueur{}
+
+
+
+MainDeCartes -- Carte
+MainDeCartes -- Joueur
+Defausse -- Carte
+Rebut -- PlateauDeJeu
+PlateauDeJeu -- Joueur
+PlateauDeJeu -- Carte
+Joueur -- Defausse
+Joueur -- Deck
+Deck -- Carte
+@enduml

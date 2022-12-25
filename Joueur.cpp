@@ -1,13 +1,39 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include "joueur.h"
 
 
-Joueur::Joueur(){
+Joueur::Joueur(std::string i){
+    id = i;
     achats = 1;
     actions = 1;
-    deck = new vector<Carte>();
-    main = new MainDeCartes();
-    défausse = new vector<Carte>();
-
+}
+std::string Joueur::getId(){
+    return id;
+}
+void Joueur::print(){
+    std::cout<< "Joueur : " << id << "\n";
+    std::cout<< "Achats : " << achats << "\n";
+    std::cout<< "Actions : " << actions << "\n";
+    /*
+    std::cout<< "Joueur : " << id << "\n";
+    std::cout<< "Achats : " << achats << "\n";
+    std::cout<< "Actions : " << actions << "\n";
+    std::cout<< "Deck : \n";
+    for(int i = 0; i < deck.size(); i++){
+        deck[i].print();
+    }
+    std::cout<< "Main : \n";
+    main.print();
+    std::cout<< "Defausse : \n";
+    for(int i = 0; i < defausse.size(); i++){
+        defausse[i].print();
+    }
+    std::cout<< "Plateaux : \n ";
+    for(int i = 0; i < plateaux.size(); i++){
+        plateaux[i].print();
+    }
+    */
 }
 int Joueur::getAchats(){
     return achats;
@@ -16,29 +42,28 @@ int Joueur::getActions(){
     return actions;
 }
 
-vector<Carte> Joueur::getDeck(){
+std::vector<Carte> Joueur::getDeck(){
     return deck;
 }
-vector<Carte> Joueur::getDéfausse(){
-    return défausse;
+std::vector<Carte> Joueur::getDefausse(){
+    return defausse;
 }
 MainDeCartes Joueur::getMain(){
     return main;
 }
-PlateauDeJeu Joueur::getPlateau(){
-    return plateau;
+/*std::vector<PlateauDeJeu> Joueur::getPlateaux(){
+    return plateaux;
+
 }
-vector<Carte> Joueur::setDeck(vector<Carte> d){
+*/
+void Joueur::setDeck(std::vector<Carte> d){
     deck = d;
 }
-void Joueur::setDéfausse(vector<Carte> d){
-    défausse = d;
+void Joueur::setDefausse(std::vector<Carte> d){
+    defausse = d;
 }
 void Joueur::setMain(MainDeCartes m){
     main = m;
-}
-void Joueur::setPlateau(PlateauDeJeu p){
-    plateau = p;
 }
 void Joueur::setAchats(int a){
     achats = a;
@@ -47,8 +72,38 @@ void Joueur::setActions(int a){
     actions = a;
 }
 void Joueur::commencerPartie(){
-    
-std::cout<< "Voici la liste des plateau de jeux : \n";
+    /*
+std::cout<< "Voulez vous jouer : 1- contre un AI ou 2- contre un autre joueur ? \n";
+int choix;
+    std::cin>>choix;
+    switch(choix){
+        case 1:
+            this.jouerAI();
+            break;
+        case 2:
+            this.jouerJoueur();
+            break;
+        default:
+            std::cout<< "Choix invalide \n";
+            this.commencerPartie();
+            break;
+    }
+    */
+   
+}
+
+
+void Joueur::jouerAI(){
+    //TODO
+}
+/*
+void Joueur::setPlateaux(std::vector<PlateauDeJeu> n){
+    plateaux = n;
+}
+*/
+void Joueur::jouerJoueur(){
+    /*
+    std::cout<< "Voici la liste des plateau de jeux : \n";
     for(int i = 0; i < plateaux.size(); i++){
         std::cout<< i+1 << " : " << plateaux[i].getNom() << "\n";
     }
@@ -62,12 +117,10 @@ std::cout<< "Voici la liste des plateau de jeux : \n";
     std::cout<< "Voici votre main : \n";
     main.afficher();
     this.jouer();
-
-    
-
-   
+    */
 }
 void Joueur::jouer(){
+    /*
     std::cout<< "Que voulez-vous faire ? \n";
     std::cout<< "1 : Jouer une carte \n";
     std::cout<< "2 : Acheter une carte \n";
@@ -97,11 +150,15 @@ void Joueur::jouer(){
             this.jouer();
             break;
     }
+    */
+}
+void Joueur::finirTour(){
+    //TODO
 }
 void Joueur::jouerCarte(Carte c){
     //TODO
 }
-void Joueur::défausser(){
+void Joueur::defausser(){
     //TODO
 }
 void Joueur::acheterADeck(){

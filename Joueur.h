@@ -1,33 +1,41 @@
 #ifndef JOUEUR_H
 #define JOUEUR_H
+#include "carte.h"
+#include "maindecartes.h"
+#include "plateaudejeu.h"
 
 class Joueur{
     private:
+        std::string id;
         int achats;
         int actions;
-        vector<Carte> deck;
+        std::vector<Carte> deck;
         MainDeCartes main;
-        vector<Carte> défausse;
-        static vector<PlateauDeJeu> plateaux;
-
+        std::vector<Carte> defausse;
+        //std::vector<PlateauDeJeu> plateaux; //static
     public:
-        Joueur();
-         
+        Joueur(std::string);
+        void print();
+        std::string getId();
+        void finirTour();
         int getAchats();
         int getActions();
-        vector<Carte> getDeck();
-        vector<Carte> getDéfausse();
+        std::vector<Carte> getDeck();
+        std::vector<Carte> getDefausse();
         MainDeCartes getMain();
-        PlateauDeJeu getPlateaux();
+        //std::vector<PlateauDeJeu> getPlateaux();
         void setAchats(int);
+        void jouerAI();
+        void jouerJoueur();
         void setActions(int);
-        void setDeck(vector<Carte>);
-        void setDéfausse(vector<Carte>);
+        void setDeck(std::vector<Carte>);
+        void setDefausse(std::vector<Carte>);
         void setMain(MainDeCartes);
-        void setPlateaux(PlateauDeJeu);
+        //void setPlateaux(std::vector<PlateauDeJeu>);
         void commencerPartie();
         void jouerCarte(Carte);
-        void défausser();
+        void jouer();
+        void defausser();
         void acheterADeck();
         void piocher();
         void trierDeck();
