@@ -5,7 +5,7 @@
 class royaume_action : public royaume, public royaume_effet
 {
 private:
-    /* 
+    
     // Nombre d'actions supplémentaires accordées par la carte
     int actionBonus;
     // Nombre de points de victoire accordés par la carte
@@ -16,18 +16,17 @@ private:
     int cardBonus;
     // Nombre d'argent supplémentaire accordé par la carte
     int moneyBonus;
-   */
+   
 public:
-    royaume_action(/* args */);
     ~royaume_action();
-    /*
+    
     // Constructeur
-    ActionCard(string name, int cost, int actionBonus, int victoryPointBonus,
+    royaume_action(std::string name, int cost, int actionBonus, int victoryPointBonus,
                 int buyBonus, int cardBonus, int moneyBonus);
     // Méthode d'exécution de l'effet de la carte
     void play();
 
-    */
+
 };
 
 

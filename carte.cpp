@@ -3,9 +3,10 @@
 #include "carte.h"
 
 
-Carte::Carte(std::string n, int c){
+Carte::Carte(std::string n, int c, TypeCarte type){
     nom = n;
     cout = c;
+    typeC = type;
 }
 std::string Carte::getNom(){
     return nom;
@@ -13,6 +14,4 @@ std::string Carte::getNom(){
 int Carte::getCout(){
     return cout;
 }
-void Carte::print(){
-    std::cout<< "Carte : " << nom << " Cout : " << cout << "\n";
-}
+
