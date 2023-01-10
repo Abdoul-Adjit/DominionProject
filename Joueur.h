@@ -13,6 +13,18 @@ class Joueur{
         MainDeCartes main;
         std::vector<Carte> defausse;
         //std::vector<PlateauDeJeu> plateaux; //static
+        /*
+            // Nom du joueur
+            string name;
+            // Points de victoire du joueur
+            int victoryPoints;
+            // Argent du joueur
+            int money;
+            // Actions disponibles pour le joueur
+            int actions;
+            // Achats disponibles pour le joueur
+            int buys;
+        */
     public:
         Joueur(std::string);
         void print();
@@ -40,7 +52,30 @@ class Joueur{
         void piocher();
         void trierDeck();
 
-
+        /* 
+         // Constructeur
+        Player(string name);
+        // Méthode permettant au joueur de jouer son tour
+        void playTurn();
+        // Méthode permettant au joueur de gagner des points de victoire
+        void gainVictoryPoints(int points);
+        // Méthode permettant au joueur de gagner de l'argent
+        void gainMoney(int amount);
+        // Méthode permettant au joueur de gagner des actions
+        void gainActions(int actions);
+        // Méthode permettant au joueur de gagner des achats
+        void gainBuys(int buys);
+        // Accesseur en lecture pour le nom du joueur
+        string getName();
+        // Accesseur en lecture pour les points de victoire du joueur
+        int getVictoryPoints();
+        // Accesseur en lecture pour l'argent du joueur
+        int getMoney();
+        // Accesseur en lecture pour les actions disponibles pour le joueur
+        int getActions();
+        // Accesseur en lecture pour les achats disponibles pour le joueur
+        int getBuys();
+        */
 
 };
 
