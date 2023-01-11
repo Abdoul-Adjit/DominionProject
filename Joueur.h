@@ -14,7 +14,23 @@ class Joueur{
         std::vector<Carte> deck;
         MainDeCartes main;
         std::vector<Carte> defausse;
+<<<<<<< HEAD
         int victoryPoints;
+=======
+        //std::vector<PlateauDeJeu> plateaux; //static
+        /*
+            // Nom du joueur
+            string name;
+            // Points de victoire du joueur
+            int victoryPoints;
+            // Argent du joueur
+            int money;
+            // Actions disponibles pour le joueur
+            int actions;
+            // Achats disponibles pour le joueur
+            int buys;
+        */
+>>>>>>> 7f1ab773c99cf3de5361c7c980c05707b0f743c1
     public:
         Joueur(std::string);
         int getIdj();
@@ -50,9 +66,36 @@ class Joueur{
         void piocher();                    // Méthode permettant au joueur de piocher des cartes
         void trierDeck();
 
+<<<<<<< HEAD
         
 
 
+=======
+        /* 
+         // Constructeur
+        Player(string name);
+        // Méthode permettant au joueur de jouer son tour
+        void playTurn();
+        // Méthode permettant au joueur de gagner des points de victoire
+        void gainVictoryPoints(int points);
+        // Méthode permettant au joueur de gagner de l'argent
+        void gainMoney(int amount);
+        // Méthode permettant au joueur de gagner des actions
+        void gainActions(int actions);
+        // Méthode permettant au joueur de gagner des achats
+        void gainBuys(int buys);
+        // Accesseur en lecture pour le nom du joueur
+        string getName();
+        // Accesseur en lecture pour les points de victoire du joueur
+        int getVictoryPoints();
+        // Accesseur en lecture pour l'argent du joueur
+        int getMoney();
+        // Accesseur en lecture pour les actions disponibles pour le joueur
+        int getActions();
+        // Accesseur en lecture pour les achats disponibles pour le joueur
+        int getBuys();
+        */
+>>>>>>> 7f1ab773c99cf3de5361c7c980c05707b0f743c1
 
 };
 
