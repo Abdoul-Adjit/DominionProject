@@ -4,10 +4,7 @@
 
 class MainDeCartes{
     private:
-        std::vector<Carte> cartejoues;
-        std::vector<Carte> cartesnonjoues;
-
-
+        std::vector<Carte> cartesEnMain;
     public:
         MainDeCartes();
 
