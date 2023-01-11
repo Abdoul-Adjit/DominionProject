@@ -2,28 +2,39 @@
 #define JOUEUR_H
 #include "carte.h"
 #include "maindecartes.h"
-#include "plateaudejeu.h"
 
 class Joueur{
     private:
-        std::string id;
+        static int idc;
+        int id;
+        std::string nom;
         int achats;
         int actions;
+        int argent;
         std::vector<Carte> deck;
         MainDeCartes main;
         std::vector<Carte> defausse;
-        //std::vector<PlateauDeJeu> plateaux; //static
+        int victoryPoints;
     public:
         Joueur(std::string);
-        void print();
-        std::string getId();
+        int getIdj();
+        void setArgent(int);
+        int getArgent();
+        void printj();
+        std::string getNom();
+        void gainVictoryPoints(int);   // Méthode permettant au joueur de gagner des points de victoire
+        void gainMoney(int);           // Méthode permettant au joueur de gagner de l'argent
+        void gainActions(int);         // Méthode permettant au joueur de gagner des actions
+        void gainAchats(int);          // Méthode permettant au joueur de gagner des achats
+        void piocher(int);            
         void finirTour();
         int getAchats();
         int getActions();
+        void setVictoryPoints(int);
+        int getVictoryPoints();
         std::vector<Carte> getDeck();
         std::vector<Carte> getDefausse();
         MainDeCartes getMain();
-        //std::vector<PlateauDeJeu> getPlateaux();
         void setAchats(int);
         void jouerAI();
         void jouerJoueur();
@@ -31,14 +42,15 @@ class Joueur{
         void setDeck(std::vector<Carte>);
         void setDefausse(std::vector<Carte>);
         void setMain(MainDeCartes);
-        //void setPlateaux(std::vector<PlateauDeJeu>);
         void commencerPartie();
         void jouerCarte(Carte);
-        void jouer();
+        void playTurn();
         void defausser();
         void acheterADeck();
-        void piocher();
+        void piocher();                    // Méthode permettant au joueur de piocher des cartes
         void trierDeck();
+
+        
 
 
 

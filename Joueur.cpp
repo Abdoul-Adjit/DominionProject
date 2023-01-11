@@ -2,19 +2,59 @@
 #include<vector>
 #include "joueur.h"
 
+int Joueur::idc=0;
 
 Joueur::Joueur(std::string i){
-    id = i;
+    id=idc;
+    nom = i;
     achats = 1;
     actions = 1;
+    argent = 0;
+    victoryPoints = 0;
+    idc++;
 }
-std::string Joueur::getId(){
+std::string Joueur::getNom(){
+    return nom;
+}
+
+void Joueur::setVictoryPoints(int a){
+    victoryPoints=a;
+}
+int Joueur::getVictoryPoints(){
+    return victoryPoints;
+}
+void Joueur::setArgent(int a){
+    argent = a;
+}
+
+int Joueur::getArgent(){
+    return argent;
+}
+
+int Joueur::getIdj(){
     return id;
 }
-void Joueur::print(){
-    std::cout<< "Joueur : " << id << "\n";
-    std::cout<< "Achats : " << achats << "\n";
-    std::cout<< "Actions : " << actions << "\n";
+void Joueur::gainVictoryPoints(int a){
+    setVictoryPoints(victoryPoints+a);
+    //setVictoryPoints(getVictoryPoints()+a);
+}
+void Joueur::gainMoney(int a){
+    setArgent(argent+a);
+    //setArgent(getArgent()+a);
+}
+void Joueur::gainActions(int a){
+    setActions(actions+a);
+    //setActions(getActions()+a);
+}
+void Joueur::gainAchats(int a){
+    setAchats(achats+a);
+    //setAchats(getAchats()+a);
+}
+
+void Joueur::printj(){
+    std::cout<< "Joueur : " << getIdj() << "\n";
+    std::cout<< "Achats : " << getAchats() << "\n";
+    std::cout<< "Actions : " << getActions() << "\n";
     /*
     std::cout<< "Joueur : " << id << "\n";
     std::cout<< "Achats : " << achats << "\n";
@@ -119,7 +159,7 @@ void Joueur::jouerJoueur(){
     this.jouer();
     */
 }
-void Joueur::jouer(){
+void Joueur::playTurn(){
     /*
     std::cout<< "Que voulez-vous faire ? \n";
     std::cout<< "1 : Jouer une carte \n";

@@ -10,7 +10,7 @@ class Carte{
         Carte(std::string, int);
         std::string getNom();
         int getCout();
-        void print();
+        void printc(); 
 
 
 
