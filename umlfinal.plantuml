@@ -1,67 +1,174 @@
-@startuml
+@startuml projectDominion
 abstract class Carte {
 nom : string
-coût : int
+cout : int
+type : TypeCarte
+dispo : boolean
+getNom()
+getCout() 
+printc()
+description()
+}
+enum TypeCarte{
+Victoire
+Royaume
+Tresor
 }
 class Victoire extends Carte{
 points : int
 }
-abstract class Royaume extends Carte{}
-class Monnaie extends Carte{
+abstract class Royaume extends Carte{
+Royaume()
+~Royaume()
+}
+
+class Tresor extends Carte{
 monnaie : int
+Tresor()
+~Tresor()
 }
 
 class Royaume_attaque extends Royaume{}
 class Royaume_action extends Royaume{}
 class Royaume_reaction extends Royaume{}
 
+class Victoire_attaque extends Victoire{}
+class Victoire_action extends Victoire{}
+class Victoire_reaction extends Victoire{}
+class Tresor_attaque extends Tresor{}
+class Tresor_action extends Tresor{}
+class Tresor_reaction extends Tresor{}
 
-class Deck{
-Cartes : Array <Carte>
-trier()
-}
-class Defausse{
 
-Cartes : Array <Carte>
-}
+
+
 class PlateauDeJeu {
-ordreDeJeu : Array <Joueur>
-CartesDeJeu : Array <Array <Carte>>
+{static} Joueur* joueuractuel;
+nbJoueurs:int
+idcount: {static} int
+idp:int
+currentPlayerIndex:int 
+ordreDeJeu:vector<Joueur>
+cartesDeJeu: map<Carte*, int>
+cartesJoues; :vector<Carte*> 
+rebut:vector<Carte*>  
+gameOver: boolean
+winner:Joueur  
+PlateauDeJeu();
+        getIdp():int 
+         achatTurn():void
+         setOrdreDeJeu(vector<Joueur>):void
+        getOrdreDeJeu():vector<Joueur> 
+         setCartesDeJeu(map<Carte*, int>):void
+        getCartesDeJeu(): map<Carte*, int> 
+         ajouterJoueur(Joueur):void
+         ajouterCarteDeJeu(Carte*, int):void
+         decrementerCarteDeJeu(Carte*):void
+         printp():void
+         playGame():void 
+         startGame():void
+         endGame():void   
+         setGameOver(boolean):void
+         getGameOver():boolean
+         setWinner(Joueur):boolean
+         getWinner():Joueur
+         addPlayer(Joueur):void
+         jouerAI():void
+         joueravecJoueur():void
+         playTurn():void
+         jouer2J():void
+         jouer3J():void
+         jouer4J():void
+         finirTour():void
+         actionTurn():void
+         cartValide(string):boolean
 }
-class Rebut{
 
-Cartes : Array <Carte>
-}
 class MainDeCartes{
-
-CartesJoues : Array <Carte>
-CartesDispos : Array <Carte>
-
+    cartesEnMain:vector<Carte> 
+    MainDeCartes()
 }
 
 abstract class Joueur{
+idc : {static} int
+id : int
+nom : string
 achats : int
 actions : int
-resetAchat()
-resetAction()
-jouer()
-defausser()
-defausseADeck()
-piocher()
+argent : int
+victoryPoints : int
+deck : vector<Carte>
+defausse : vector<Carte>
+main : MainDeCartes
+Joueur()
+Joueur(string)
+getIdj(): int
+setNom(string): void
+setArgent(int): void
+getArgent(): int
+printj():void
+getNom() : string
+gainVictoryPoints(int):void
+gainActions(int):void        
+gainAchats(int):void       
+piocher(int):void          
+finirTour():void
+getAchats():int
+getActions():int
+setVictoryPoints(int):void
+getVictoryPoints() : int
+getDeck(): vector<Carte>
+getDefausse() : vector<Carte>
+getMain():MainDeCartes
+setAchats(int):void
+jouerAI():void
+jouerJoueur():void
+setActions(int):void
+setDeck(vector<Carte>):void
+setDefausse(vector<Carte>):void
+setMain(MainDeCartes):void
+commencerPartie():void
+playTurn():void                  
+defausser():void
+acheterADeck():void
+piocher():void                   
+trierDeck():void
+acheterCarte(map<string, int>):void
 
 }
-class Humain extends Joueur{}
-class IARobot extends Joueur{}
+
+class Robot{
+Robot()
+printh()
+setAchats()
+setActions()
+setDeck()
+
+}
+
+
+
+
+class Humain extends Joueur{
+    Humain()
+    printh()
+    setAchats()
+    setActions()
+    setDeck()
+    setDefausse()
+    setMain()
+}
+class Robot extends Joueur{}
 
 
 
 MainDeCartes -- Carte
 MainDeCartes -- Joueur
-Defausse -- Carte
 Rebut -- PlateauDeJeu
 PlateauDeJeu -- Joueur
 PlateauDeJeu -- Carte
-Joueur -- Defausse
-Joueur -- Deck
-Deck -- Carte
+TypeCarte--Carte
+Joueur--Carte
+
+
 @enduml
