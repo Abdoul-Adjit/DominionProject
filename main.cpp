@@ -1,7 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
-#include "joueur.h"
+#include "Joueur.h"
 #include "carte.h"
 #include "plateaudejeu.h"
 

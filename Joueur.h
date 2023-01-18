@@ -14,9 +14,7 @@ class Joueur{
         std::vector<Carte> deck;
         MainDeCartes main;
         std::vector<Carte> defausse;
-<<<<<<< HEAD
         int victoryPoints;
-=======
         //std::vector<PlateauDeJeu> plateaux; //static
         /*
             // Nom du joueur
@@ -30,7 +28,6 @@ class Joueur{
             // Achats disponibles pour le joueur
             int buys;
         */
->>>>>>> 7f1ab773c99cf3de5361c7c980c05707b0f743c1
     public:
         Joueur(std::string);
         int getIdj();
@@ -66,11 +63,9 @@ class Joueur{
         void piocher();                    // Méthode permettant au joueur de piocher des cartes
         void trierDeck();
 
-<<<<<<< HEAD
         
 
 
-=======
         /* 
          // Constructeur
         Player(string name);
@@ -95,7 +90,6 @@ class Joueur{
         // Accesseur en lecture pour les achats disponibles pour le joueur
         int getBuys();
         */
->>>>>>> 7f1ab773c99cf3de5361c7c980c05707b0f743c1
 
 };
 

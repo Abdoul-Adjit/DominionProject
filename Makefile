@@ -1,6 +1,6 @@
 
 CXX=g++
-CXXFLAGS=-Wall -Wextra
+CXXFLAGS=-Wall -Wextra -g
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -c -o $@
@@ -27,4 +27,4 @@ run: main
 	./$<
 
 clean:
-	rm -f *.o *~ *.core 
+	rm -f *.o *~ *.core DominionProject/*.o

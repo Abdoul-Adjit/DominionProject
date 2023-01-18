@@ -7,9 +7,6 @@ int Carte::getCout(){
     return cout;
 }
 
-int Carte::getCout(){
-    this-> cout;
-}
 std::string Carte::getNom(){
     this-> nom;
 }

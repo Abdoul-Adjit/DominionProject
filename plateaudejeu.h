@@ -1,16 +1,15 @@
 #ifndef PLATEAUDEJEU_H
 #define PLATEAUDEJEU_H
 #include<map>
-#include "joueur.h"
+#include "Joueur.h"
 #include "carte.h"
-include <sfml>
 
 // Le Systeme d'id unique pour les joueurs est a faire
 class PlateauDeJeu{
     private:
         static int idcount;
         int idp=0;
-<<<<<<< HEAD
+
         std::vector<Joueur> ordreDeJeu;
         std::map<std::string, int> cartesDeJeu; //std::vector<Pilecarte> pilecarteList; (Collection de piles de cartes du jeu)
         std::vector<Carte> cartesJoues;  // Collection de cartes jouees par les joueurs
@@ -20,7 +19,6 @@ class PlateauDeJeu{
 
     public:
         PlateauDeJeu();
-<<<<<<< HEAD
         int getIdp();
         void setOrdreDeJeu(std::vector<Joueur>);
         std::vector<Joueur> getOrdreDeJeu();
@@ -32,18 +30,17 @@ class PlateauDeJeu{
         void lancer();
         void playGame();  // Méthode permettant de jouer une partie
         void endGame();
-        void setGameOver(bool);c
+        void setGameOver(bool);
         bool getGameOver();
         void setWinner(Joueur);
         Joueur getWinner();
 
-        
-=======
+        void printp();
         int getId();
         void setOrdreDeJeu(std::vector<std::string>);
-        std::vector<std::string> getOrdreDeJeu();
+        
         void setCartesDeJeu(std::vector<Carte>);
-        std::vector<Carte> getCartesDeJeu();
+
         void ajouterJoueur(std::string);
         void ajouterCarte(Carte);
         /* 
@@ -58,7 +55,6 @@ class PlateauDeJeu{
         // Accesseur en lecture pour le gagnant de la partie
         Player getWinner();
         */
->>>>>>> 7f1ab773c99cf3de5361c7c980c05707b0f743c1
         
 
 };
