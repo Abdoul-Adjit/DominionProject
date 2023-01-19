@@ -247,6 +247,8 @@ std::vector<Carte*>  initDeck(){
     return cardsAdd;
 }
 
+
+
 int main()
 {  
 
@@ -268,8 +270,8 @@ int main()
     joueur2->piocher();
     int currentjoueur = 1;
     std::vector<Joueur*> listeJoueurs {joueur1,joueur2};
-
     std::vector<sf::Texture*> allTextures = openImages(allFiles);
+    std::vector<sf::Texture*> texturePileBack = openImages({"pileback"});
     std::vector<sf::Texture*> texturesMainJ2 = openImages(filesBack);
     std::vector<sf::Texture*> texturesP = openImages(filesPlateau);
     std::vector<sf::Texture*> texturesMV = openImages(filesMV);
@@ -286,22 +288,75 @@ int main()
     sf::Text options("Options",font,20);
     sf::Text exit("Exit",font,20);
     
+
     sf::Text passerTour("Passer son tour",font,20);
+    passerTour.setPosition(sf::Vector2f(windowX-200, windowY-300));
+    passerTour.setFillColor(sf::Color::Black);
+    
+    sf::RectangleShape passerTourButton(sf::Vector2f (170.f, 50.f));
+    passerTourButton.setPosition(sf::Vector2f(windowX-210, windowY-310));
+    passerTourButton.setFillColor(sf::Color::Blue);
+
 
     newgame.setPosition(sf::Vector2f(110.f, 110.f));
     loadgame.setPosition(sf::Vector2f(110.f, 210.f) );
     options.setPosition(sf::Vector2f(110.f, 310.f));
     exit.setPosition(sf::Vector2f(110.f, 410.f));
-    passerTour.setPosition(sf::Vector2f(windowX-200, windowY-300));
+    
+
     newgame.setFillColor(sf::Color::White);
     loadgame.setFillColor(sf::Color::White);
     options.setFillColor(sf::Color::White);
     exit.setFillColor(sf::Color::White);
-    passerTour.setFillColor(sf::Color::Black);
+   
 
-    sf::RectangleShape passerTourButton(sf::Vector2f (170.f, 50.f));
-    passerTourButton.setPosition(sf::Vector2f(windowX-210, windowY-310));
-    passerTourButton.setFillColor(sf::Color::Blue);
+    sf::RectangleShape ArgentButton(sf::Vector2f (170.f, 50.f));
+    ArgentButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-190));
+    ArgentButton.setFillColor(sf::Color::Blue);
+
+    sf::Text Argent("Argent : "+ std::to_string(joueur1->getArgent()),font,20);
+    Argent.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-180));
+    Argent.setFillColor(sf::Color::Black);
+
+
+    sf::RectangleShape ActionsButton(sf::Vector2f (170.f, 50.f));
+    ActionsButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-110));
+    ActionsButton.setFillColor(sf::Color::Blue);
+
+    sf::Text Actions("Actions : "+ std::to_string(joueur1->getActions()),font,20);
+    Actions.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-100));
+    Actions.setFillColor(sf::Color::Black);
+
+
+    sf::RectangleShape TourJoueurCase(sf::Vector2f (170.f, 50.f));
+    TourJoueurCase.setPosition(sf::Vector2f(windowX-190, windowY-(windowY-20)));
+    TourJoueurCase.setFillColor(sf::Color::Blue);
+
+    sf::Text TourJoueur("Tour du joueur " + std::to_string(currentjoueur),font,20 );
+    TourJoueur.setPosition(sf::Vector2f(windowX-180, windowY-(windowY-30)));
+    TourJoueur.setFillColor(sf::Color::Black);
+
+    sf::RectangleShape deckPile((sf::Vector2f(130.f,180.f))); 
+    deckPile.setPosition(sf::Vector2f(400,windowY-200));
+    deckPile.setTexture(texturePileBack.at(0));
+
+    sf::Text deckText("Deck",font,20 );
+    deckText.setPosition(sf::Vector2f(450, windowY-230));
+    deckText.setFillColor(sf::Color::Black);
+
+
+    sf::RectangleShape defaussePile((sf::Vector2f(130.f,180.f))); 
+    defaussePile.setPosition(sf::Vector2f(windowX-400,windowY-200));
+    defaussePile.setTexture(texturePileBack.at(0));
+
+    sf::Text defausseText("Defausse",font,20 );
+    defausseText.setPosition(sf::Vector2f(windowX-380, windowY-230));
+    defausseText.setFillColor(sf::Color::Black);
+
+    // joueur1->gainActions(1);                                                 **Ensemble pour 
+    // Actions.setString("Actions : "+ std::to_string(joueur1->getActions())); **affichage
+
+
 
     bool onMenu = true;
     bool onGame = false;
@@ -388,12 +443,15 @@ int main()
                             joueur2->piocher();
                             mainCarte = loadMain2(joueur2->getMain(),allTextures,allFiles);
                             currentjoueur=2;
+                            Actions.setString("Actions : "+ std::to_string(joueur2->getActions()));
                             
                         }else{
                             joueur1->piocher();
                             mainCarte = loadMain2(joueur1->getMain(),allTextures,allFiles);
                             currentjoueur=1;
+                            Actions.setString("Actions : "+ std::to_string(joueur1->getActions()));
                         }
+                        TourJoueur.setString("Tour du joueur : "+ std::to_string(currentjoueur));
                         
                      }
                 }
@@ -472,8 +530,20 @@ int main()
             }
             window.draw(passerTourButton);
             window.draw(passerTour);
+            window.draw(ActionsButton);
+            window.draw(Actions);
+            window.draw(ArgentButton);
+            window.draw(Argent);
+            window.draw(TourJoueurCase);
+            window.draw(TourJoueur);
+
+            window.draw(deckPile);
+            window.draw(deckText);
+
+            window.draw(defaussePile);
+            window.draw(defausseText);
         }
-       
+        
         window.display();
     }
     return 0;

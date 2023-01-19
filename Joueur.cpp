@@ -3,7 +3,7 @@
 #include <random>
 #include <algorithm>
 #include "joueur.h"
-
+#include "victoire.h"
 int Joueur::idc=0;
 
 Joueur::Joueur(std::string i){
@@ -54,7 +54,13 @@ void Joueur::gainAchats(int a){
     setAchats(achats+a);
     //setAchats(getAchats()+a);
 }
+void jouerCarte(Carte* c, Joueur* j){
+    if(c->getType()==TypeCarte::Money){
+        victoire* d = dynamic_cast<victoire*>(c);
+        j->gainAchats(d->getValeur());
+    }
 
+}
 void Joueur::printj(){
     std::cout<< "Joueur : " << getIdj() << "\n";
     std::cout<< "Achats : " << getAchats() << "\n";
@@ -165,6 +171,8 @@ void Joueur::jouerJoueur(){
     main.afficher();
     this.jouer();
     */
+
+
 }
 void Joueur::playTurn(){
     /*
@@ -198,6 +206,9 @@ void Joueur::playTurn(){
             break;
     }
     */
+
+
+
 }
 void Joueur::finirTour(){
     //TODO

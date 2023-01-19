@@ -8,9 +8,7 @@ Carte::Carte(std::string n, int c, TypeCarte t, bool d){
     type =t;
     dispo=d;
  }
-int Carte::getCout(){
-    return cout;
-}
+
 
 std::string Carte::getNom(){
     return this-> nom;
@@ -18,3 +16,7 @@ std::string Carte::getNom(){
 /*void Carte::printc(){
     std::cout<< "Carte : " << nom << " Cout : " << cout << "\n";
 }*/
+
+TypeCarte Carte::getType(){
+    return type;
+}

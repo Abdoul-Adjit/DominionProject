@@ -62,6 +62,7 @@ class Joueur{
         void acheterADeck();
         void piocher();                    // Méthode permettant au joueur de piocher des cartes
         void trierDeck();
+        void jouerCarte(Carte* c);
 
         
 
