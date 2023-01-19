@@ -1,21 +1,21 @@
 
 CXX=g++
-CXXFLAGS=-Wall -Wextra -g
+CXXFLAGS=-Wall -Wextra -g -no-pie
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
-main: carte.o maindecartes.o joueur.o plateaudejeu.o main.o
+main: carte.o maindecartes.o Joueur.o plateaudejeu.o main.o victoire.o tresor.o humain.o
 
 	$(CXX) $^ -o $@ $(CXXFLAGS)
 
-sfml.o: test-sfml.cpp
+sfml.o: test-sfml.cpp 
 
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 
-sfml: sfml.o
+sfml: sfml.o carte.o maindecartes.o Joueur.o victoire.o tresor.o humain.o
 
-	$(CXX) $^ -o $@ $(CXXFLAGS) -lsfml-graphics -lsfml-window -lsfml-system
+	$(CXX) $^ -o $@ $(CXXFLAGS) -lsfml-graphics -lsfml-window -lsfml-system 
 
 .PHONY: 
 	run clean
@@ -27,4 +27,4 @@ run: main
 	./$<
 
 clean:
-	rm -f *.o *~ *.core DominionProject/*.o
+	rm -f *.o *~ *.core DominionProject/*.o 

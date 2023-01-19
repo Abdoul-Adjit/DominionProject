@@ -7,15 +7,14 @@ class victoire : public Carte
 private:
     int valeur;
 public:
-    ~victoire();
     int getValeur();
     // Constructeur
-    victoire(std::string name, int   cost, int money):Carte(name,cost, TypeCarte::Victory){
-        valeur = money;
-    }
+    victoire(std::string name, int   cost, int money, bool d):Carte(name,cost, TypeCarte::Victory,d),valeur(money){};
     // Méthode d'exécution de l'effet de la carte
+    ~victoire();
     void play();
-
+    void printc();
+    void description();
 };
 
 

@@ -18,14 +18,13 @@ class Carte{
     public:
    
         
-
+        Carte(std::string n, int c, TypeCarte t, bool d);
         // Accesseur en lecture pour le nom de la carte
         std::string getNom();
     
         // Accesseur en lecture pour le coût de la carte en argent
         int getCout();
-        virtual void printc()=0; 
-        virtual void description()=0;
+  
 };
 
 #endif

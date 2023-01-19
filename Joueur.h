@@ -11,8 +11,8 @@ class Joueur{
         int achats;
         int actions;
         int argent;
-        std::vector<Carte> deck;
-        MainDeCartes main;
+        std::vector<Carte*> deck;
+        std::vector<Carte*> main;
         std::vector<Carte> defausse;
         int victoryPoints;
         //std::vector<PlateauDeJeu> plateaux; //static
@@ -45,18 +45,18 @@ class Joueur{
         int getActions();
         void setVictoryPoints(int);
         int getVictoryPoints();
-        std::vector<Carte> getDeck();
+        std::vector<Carte*> getDeck();
         std::vector<Carte> getDefausse();
-        MainDeCartes getMain();
+        std::vector<Carte*> getMain();
         void setAchats(int);
         void jouerAI();
         void jouerJoueur();
         void setActions(int);
-        void setDeck(std::vector<Carte>);
+        void setDeck(std::vector<Carte*>);
         void setDefausse(std::vector<Carte>);
-        void setMain(MainDeCartes);
+        void setMain(std::vector<Carte*>);
         void commencerPartie();
-        void jouerCarte(Carte);
+        void shuffle();
         void playTurn();
         void defausser();
         void acheterADeck();

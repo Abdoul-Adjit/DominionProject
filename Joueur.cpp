@@ -1,5 +1,7 @@
 #include<iostream>
 #include<vector>
+#include <random>
+#include <algorithm>
 #include "joueur.h"
 
 int Joueur::idc=0;
@@ -12,6 +14,8 @@ Joueur::Joueur(std::string i){
     argent = 0;
     victoryPoints = 0;
     idc++;
+    std::vector<Carte*> m;
+    this->main = m;
 }
 std::string Joueur::getNom(){
     return nom;
@@ -82,28 +86,30 @@ int Joueur::getActions(){
     return actions;
 }
 
-std::vector<Carte> Joueur::getDeck(){
-    return deck;
+std::vector<Carte*> Joueur::getDeck(){
+    return this->deck;
 }
-std::vector<Carte> Joueur::getDefausse(){
-    return defausse;
-}
-MainDeCartes Joueur::getMain(){
-    return main;
+
+std::vector<Carte*> Joueur::getMain(){
+    return this->main;
 }
 /*std::vector<PlateauDeJeu> Joueur::getPlateaux(){
     return plateaux;
 
 }
 */
-void Joueur::setDeck(std::vector<Carte> d){
-    deck = d;
+void Joueur::shuffle() {
+    static std::random_device rd;
+    static auto rng = std::default_random_engine { rd() };
+    std::shuffle(this->deck.begin(), this->deck.end(), rng);
 }
-void Joueur::setDefausse(std::vector<Carte> d){
-    defausse = d;
+
+void Joueur::setDeck(std::vector<Carte*> d){
+    this-> deck = d;
 }
-void Joueur::setMain(MainDeCartes m){
-    main = m;
+
+void Joueur::setMain(std::vector<Carte*> m){
+    this->main=m;
 }
 void Joueur::setAchats(int a){
     achats = a;
@@ -141,6 +147,7 @@ void Joueur::setPlateaux(std::vector<PlateauDeJeu> n){
     plateaux = n;
 }
 */
+
 void Joueur::jouerJoueur(){
     /*
     std::cout<< "Voici la liste des plateau de jeux : \n";
@@ -195,9 +202,7 @@ void Joueur::playTurn(){
 void Joueur::finirTour(){
     //TODO
 }
-void Joueur::jouerCarte(Carte c){
-    //TODO
-}
+
 void Joueur::defausser(){
     //TODO
 }
@@ -205,7 +210,10 @@ void Joueur::acheterADeck(){
     //TODO
 }
 void Joueur::piocher(){
-    //TODO
+    for(int i=0;i<5;i++){
+        this->main.push_back(*this->deck.begin());
+        this->deck.erase(this->deck.begin());
+    }
 }
 void Joueur::trierDeck(){
     //TODO
