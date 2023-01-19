@@ -13,7 +13,7 @@ class Joueur{
         int argent;
         std::vector<Carte*> deck;
         std::vector<Carte*> main;
-        std::vector<Carte> defausse;
+        std::vector<Carte*> defausse;
         int victoryPoints;
         //std::vector<PlateauDeJeu> plateaux; //static
         /*
@@ -58,7 +58,7 @@ class Joueur{
         void commencerPartie();
         void shuffle();
         void playTurn();
-        void defausser();
+        void defausser(Carte* c);
         void acheterADeck();
         void piocher();                    // Méthode permettant au joueur de piocher des cartes
         void trierDeck();

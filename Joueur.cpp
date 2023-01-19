@@ -203,16 +203,33 @@ void Joueur::finirTour(){
     //TODO
 }
 
-void Joueur::defausser(){
-    //TODO
+void Joueur::defausser(Carte* c){
+    this->defausse.push_back(c);
 }
 void Joueur::acheterADeck(){
     //TODO
 }
 void Joueur::piocher(){
+    
+    for(int i=0;i<this->main.size();i++){
+        defausser(this->main.at(i));
+    }
+    this->main.clear();
     for(int i=0;i<5;i++){
-        this->main.push_back(*this->deck.begin());
-        this->deck.erase(this->deck.begin());
+        if(this->deck.size()>0){
+            this->main.push_back(*this->deck.begin());
+            this->deck.erase(this->deck.begin());
+        }else{
+            this->deck.clear();
+            this->deck=this->defausse;
+            this->defausse.clear();
+            this->shuffle();
+            if(this->deck.size()>0){
+                this->main.push_back(*this->deck.begin());
+                this->deck.erase(this->deck.begin());
+            }
+        }
+    
     }
 }
 void Joueur::trierDeck(){

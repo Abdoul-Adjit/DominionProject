@@ -8,8 +8,8 @@
 #include "tresor.h"
 #include "victoire.h"
 #include "maindecartes.h"
-int windowX = 1280.f;
-int windowY=720.f;
+int windowX = 1920.f*0.9f;
+int windowY=1080.f*0.9f;
 
 std::vector<sf::Texture*> openImages(std::vector<std::string> fichierImage)
 {
@@ -255,15 +255,18 @@ int main()
     font.loadFromFile("arial.ttf");
     initButtons(buttons); 
     std::vector<std::string> filesBack {"back"};
-    std::vector<std::string> filesPlateau {"silver","copper","back","back","back","back","back","back","back","back"};
-    std::vector<std::string> filesMV {"copper","silver","back","back","back","back","back"};
-    std::vector<std::string> allFiles {"back","copper","silver"};
+    std::vector<std::string> filesPlateau {"workshop","woodcutter","cave","chapelle","smithy","market","mine","remodel","witch","village"};
+    std::vector<std::string> filesMV {"province","gold","duchy","silver","estate","copper","curse"};
+    std::vector<std::string> allFiles {"back","copper","silver","gold"};
     Humain* joueur1 = new Humain("1");
     Humain* joueur2= new Humain("1");
     joueur1->setDeck(initDeck());
     joueur2->setDeck(initDeck());;
     joueur1->shuffle();
     joueur1->piocher();
+    joueur2->shuffle();
+    joueur2->piocher();
+    int currentjoueur = 1;
     std::vector<Joueur*> listeJoueurs {joueur1,joueur2};
 
     std::vector<sf::Texture*> allTextures = openImages(allFiles);
@@ -283,14 +286,23 @@ int main()
     sf::Text options("Options",font,20);
     sf::Text exit("Exit",font,20);
     
+    sf::Text passerTour("Passer son tour",font,20);
+
     newgame.setPosition(sf::Vector2f(110.f, 110.f));
     loadgame.setPosition(sf::Vector2f(110.f, 210.f) );
     options.setPosition(sf::Vector2f(110.f, 310.f));
     exit.setPosition(sf::Vector2f(110.f, 410.f));
+    passerTour.setPosition(sf::Vector2f(windowX-200, windowY-300));
     newgame.setFillColor(sf::Color::White);
     loadgame.setFillColor(sf::Color::White);
     options.setFillColor(sf::Color::White);
     exit.setFillColor(sf::Color::White);
+    passerTour.setFillColor(sf::Color::Black);
+
+    sf::RectangleShape passerTourButton(sf::Vector2f (170.f, 50.f));
+    passerTourButton.setPosition(sf::Vector2f(windowX-210, windowY-310));
+    passerTourButton.setFillColor(sf::Color::Blue);
+
     bool onMenu = true;
     bool onGame = false;
     bool hover = false;
@@ -370,22 +382,55 @@ int main()
                         }
                     }
                 }
+                if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                     if (passerTourButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)){
+                        if(currentjoueur==1){
+                            joueur2->piocher();
+                            mainCarte = loadMain2(joueur2->getMain(),allTextures,allFiles);
+                            currentjoueur=2;
+                            
+                        }else{
+                            joueur1->piocher();
+                            mainCarte = loadMain2(joueur1->getMain(),allTextures,allFiles);
+                            currentjoueur=1;
+                        }
+                        
+                     }
+                }
                 if(event.type == sf::Event::MouseButtonReleased )
                 {  
-                    drag = false;
-                    lefthover=true;
-                    if(jouerCarte->getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y)){
+                    
+                    if(jouerCarte->getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y) && drag && !lefthover){
+                        drag = false;
+                        lefthover=true;
                         dragCarte->setPosition(sf::Vector2f(jouerCarte->getPosition().x,jouerCarte->getPosition().y));   
-                        // mainCarte.erase(std::find(begin(mainCarte),end(mainCarte),dragCarte));
-                        std::vector<Carte*> cstock = joueur1->getMain();
-                        auto it = std::find(begin(mainCarte),end(mainCarte),dragCarte);
-                        int index = it - mainCarte.begin();
-                        cstock.erase(begin(cstock)+index);
-                        joueur1->setMain(cstock);
-                        mainCarte.clear();
-                        mainCarte = loadMain2(joueur1->getMain(),allTextures,allFiles);
+                        jouerCarte=dragCarte;
+                    
+                        
+                        if(currentjoueur==1){
+                            std::vector<Carte*> cstock = joueur1->getMain();
+                            auto it = std::find(begin(mainCarte),end(mainCarte),dragCarte);
+                            int index = it - mainCarte.begin();
+                            joueur1->defausser(cstock.at(index));
+                            cstock.erase(begin(cstock)+index);                     
+                            joueur1->setMain(cstock);
+                            mainCarte.clear();
+                            mainCarte = loadMain2(joueur1->getMain(),allTextures,allFiles);
+                        }else{
+                            std::vector<Carte*> cstock = joueur2->getMain();
+                            auto it = std::find(begin(mainCarte),end(mainCarte),dragCarte);
+                            int index = it - mainCarte.begin();
+                            joueur2->defausser(cstock.at(index));
+                            cstock.erase(begin(cstock)+index);
+                            joueur2->setMain(cstock);
+                            mainCarte.clear();
+                            mainCarte = loadMain2(joueur2->getMain(),allTextures,allFiles);
+                    
+                        }
                     }
-                    else{
+                    else if (drag){
+                        drag = false;
+                        lefthover=true;
                         dragCarte->setPosition(sf::Vector2f(SX,SY));
                     }
                 }
@@ -425,6 +470,8 @@ int main()
             {
                 window.draw(*circlesStack[i]);
             }
+            window.draw(passerTourButton);
+            window.draw(passerTour);
         }
        
         window.display();
