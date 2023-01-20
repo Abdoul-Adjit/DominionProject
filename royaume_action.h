@@ -2,7 +2,7 @@
 #define ROYAUMEACTION_H
 #include "royaume.h"
 #include "royaume_effet.h"
-class royaume_action : public royaume, public royaume_effet
+class royaume_action : public royaume
 {
 private:
     
@@ -18,14 +18,18 @@ private:
     int moneyBonus;
    
 public:
-    ~royaume_action();
+
     
     // Constructeur
-    royaume_action(std::string name, int cost, int actionBonus, int victoryPointBonus,
-                int buyBonus, int cardBonus, int moneyBonus);
+    royaume_action(std::string name, int cost,bool d, int action, int victory,
+                int buy, int card, int money):royaume(name, cost,d),actionBonus(action), victoryPointBonus(victory),buyBonus(buy),cardBonus(card),moneyBonus(money){};
     // Méthode d'exécution de l'effet de la carte
     void play();
-
+    int getactionBonus();
+    int getvictoryPointBonus();
+    int getbuyBonus();
+    int getcardBonus();
+    int getmoneyBonus();
 
 };
 

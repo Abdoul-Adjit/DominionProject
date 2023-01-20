@@ -21,9 +21,10 @@ class Carte{
         Carte(std::string n, int c, TypeCarte t, bool d);
         // Accesseur en lecture pour le nom de la carte
         std::string getNom();
-        virtual int getCout();
+        int getCout();
         // Accesseur en lecture pour le coût de la carte en argent
         TypeCarte getType();
+        bool getdispo();
   
 };
 

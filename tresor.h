@@ -15,7 +15,7 @@ public:
     void play();
     void printc();
     void description();
-
+    int getCout();
 };
 
 

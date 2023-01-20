@@ -14,6 +14,7 @@ public:
     ~victoire();
     void play();
     void printc();
+    int getCout();
     void description();
 };
 

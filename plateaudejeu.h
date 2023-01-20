@@ -34,13 +34,9 @@ class PlateauDeJeu{
         bool getGameOver();
         void setWinner(Joueur);
         Joueur getWinner();
-
-        void printp();
         int getId();
         void setOrdreDeJeu(std::vector<std::string>);
-        
         void setCartesDeJeu(std::vector<Carte>);
-
         void ajouterJoueur(std::string);
         void ajouterCarte(Carte);
         /* 

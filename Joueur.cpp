@@ -4,6 +4,9 @@
 #include <algorithm>
 #include "joueur.h"
 #include "victoire.h"
+#include "tresor.h"
+#include "royaume_action.h"
+
 int Joueur::idc=0;
 
 Joueur::Joueur(std::string i){
@@ -28,7 +31,7 @@ int Joueur::getVictoryPoints(){
     return victoryPoints;
 }
 void Joueur::setArgent(int a){
-    argent = a;
+    this->argent = a;
 }
 
 int Joueur::getArgent(){
@@ -43,21 +46,33 @@ void Joueur::gainVictoryPoints(int a){
     //setVictoryPoints(getVictoryPoints()+a);
 }
 void Joueur::gainMoney(int a){
-    setArgent(argent+a);
+    setArgent((this->argent)+a);
     //setArgent(getArgent()+a);
 }
 void Joueur::gainActions(int a){
-    setActions(actions+a);
+    setActions((this->actions)+a);
     //setActions(getActions()+a);
 }
 void Joueur::gainAchats(int a){
-    setAchats(achats+a);
+    setAchats((this->achats)+a);
     //setAchats(getAchats()+a);
 }
-void jouerCarte(Carte* c, Joueur* j){
+void Joueur::jouerCarte(Carte* c, Joueur* j){
     if(c->getType()==TypeCarte::Money){
-        victoire* d = dynamic_cast<victoire*>(c);
-        j->gainAchats(d->getValeur());
+        tresor* d = static_cast<tresor*>(c);
+        j->gainMoney(d->getValeur());
+    }
+    if(c->getType()==TypeCarte::Action){
+        royaume_action* ra = static_cast<royaume_action*>(c);
+        j->gainAchats(ra->getbuyBonus());
+        j->gainActions(ra->getactionBonus());
+        j->gainMoney(ra->getmoneyBonus());
+        int stock = ra->getcardBonus();
+        if(stock>0){
+            for(int i = 0;i<stock;i++){
+                j->piocherCarte();
+            }
+        }
     }
 
 }
@@ -118,10 +133,10 @@ void Joueur::setMain(std::vector<Carte*> m){
     this->main=m;
 }
 void Joueur::setAchats(int a){
-    achats = a;
+    this->achats = a;
 }
 void Joueur::setActions(int a){
-    actions = a;
+    this->actions = a;
 }
 void Joueur::commencerPartie(){
     /*
@@ -242,6 +257,24 @@ void Joueur::piocher(){
         }
     
     }
+}
+
+void Joueur::piocherCarte(){
+
+        if(this->deck.size()>0){
+            this->main.push_back(*this->deck.begin());
+            this->deck.erase(this->deck.begin());
+        }else{
+            this->deck.clear();
+            this->deck=this->defausse;
+            this->defausse.clear();
+            this->shuffle();
+            if(this->deck.size()>0){
+                this->main.push_back(*this->deck.begin());
+                this->deck.erase(this->deck.begin());
+            }
+        }
+     
 }
 void Joueur::trierDeck(){
     //TODO

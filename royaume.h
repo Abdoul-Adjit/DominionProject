@@ -7,8 +7,7 @@ class royaume : public Carte
 private:
     /* data */
 public:
-    royaume(/* args */);
-    ~royaume();
+    royaume(std::string name, int cost, bool d):Carte(name,cost, TypeCarte::Action,d){};
 };
 
 
