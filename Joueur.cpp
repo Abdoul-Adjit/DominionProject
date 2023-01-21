@@ -72,6 +72,7 @@ void Joueur::jouerCarte(Carte* c, Joueur* j){
     }
     if(c->getType()==TypeCarte::Action){
         royaume_action* ra = static_cast<royaume_action*>(c);
+        j->gainActions(-1);
         j->gainAchats(ra->getbuyBonus());
         j->gainActions(ra->getactionBonus());
         j->gainMoney(ra->getmoneyBonus());

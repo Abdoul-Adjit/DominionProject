@@ -508,7 +508,7 @@ int main()
                               auto it = std::find(begin(mainCarte),end(mainCarte),card);
                               int index = it - mainCarte.begin();
                               if(joueurTour->getMain().at(index)->getType()!=TypeCarte::Victory ){
-                                if(joueurTour->getMain().at(index)->getType()==TypeCarte::Action && joueurTour->getPhase() == PhaseJeu::Action){
+                                if(joueurTour->getMain().at(index)->getType()==TypeCarte::Action && joueurTour->getPhase() == PhaseJeu::Action && joueurTour->getActions()>0){
                                     SX= card->getPosition().x;
                                     SY= card->getPosition().y+20;
                                     OX = sf::Mouse::getPosition(window).x - card->getPosition().x;
@@ -530,6 +530,7 @@ int main()
                     }
                 }
                 if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+            
                      if (passerTourButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)){
                         if(joueurTour->getPhase()==PhaseJeu::Achat){
                             if(indexJoueur==plateaujeu->getOrdreDeJeu().size()-1){
@@ -548,16 +549,17 @@ int main()
                             Actions.setString("Actions : "+ std::to_string(joueurTour->getActions()));
                             Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent()));   
                             TourJoueur.setString("Tour du joueur : "+ std::to_string(indexJoueur+1));
-                        }else if(joueurTour->getPhase()==PhaseJeu::Action){
+                        }else if(joueurTour->getPhase()==PhaseJeu::Action ){
                             joueurTour->setPhase(PhaseJeu::Achat);
+                            
                         }
                         strPasserPhase = setStringPhase(joueurTour);
                         passerTour.setString(strPasserPhase);
                    
         
                      }
-                     else{
-                        if(joueurTour->getAchats()>0){
+                     else  if(joueurTour->getAchats()>0){
+                       
                         for(sf::RectangleShape* card : plateau){
                                 if(card->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))) && joueurTour->getPhase()==PhaseJeu::Achat){
                                     auto it = std::find(begin(plateau),end(plateau),card);
@@ -571,7 +573,7 @@ int main()
                                         Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
                                     }
                                 }
-                            }
+                            
                         }
 
                      }
@@ -587,7 +589,7 @@ int main()
                         auto it = std::find(begin(mainCarte),end(mainCarte),dragCarte);
                         int index = it - mainCarte.begin();
                         Carte* c = cstock.at(index);
-                        joueurTour->defausser(cstock.at(index));                                                        
+                        joueurTour->defausser(c);                                                        
                         cstock.erase(begin(cstock)+index);                     
                         joueurTour->setMain(cstock);
                         joueurTour->jouerCarte(c,joueurTour);
@@ -595,7 +597,7 @@ int main()
                         Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
                         Actions.setString("Actions : "+ std::to_string(joueurTour->getActions()));
                         mainCarte.clear();
-                        mainCarte = loadMain2(joueurTour->getMain(),allTextures,allFiles);                
+                        mainCarte = loadMain2(joueurTour->getMain(),allTextures,allFiles);                    
                     }
                     else if (drag){
                         drag = false;
