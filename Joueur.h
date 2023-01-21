@@ -65,6 +65,8 @@ class Joueur{
         void trierDeck();
         void jouerCarte(Carte* c, Joueur* j);
         void piocherCarte();
+        PhaseJeu getPhase();
+        void setPhase(PhaseJeu);
 
         
 

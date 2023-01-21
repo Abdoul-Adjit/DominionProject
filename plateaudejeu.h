@@ -20,8 +20,8 @@ class PlateauDeJeu{
     public:
         PlateauDeJeu();
         int getIdp();
-        void setOrdreDeJeu(std::vector<Joueur>);
-        std::vector<Joueur> getOrdreDeJeu();
+        void setOrdreDeJeu(std::vector<Joueur*>);
+        std::vector<Joueur*> getOrdreDeJeu();
         void setCartesDeJeu(std::vector<Carte*>);
         std::vector<Carte*> getCartesDeJeu();
         void ajouterJoueur(Joueur);

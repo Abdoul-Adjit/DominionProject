@@ -25,6 +25,12 @@ Joueur::Joueur(std::string i){
 std::string Joueur::getNom(){
     return nom;
 }
+PhaseJeu Joueur::getPhase(){
+    return this->phaseJoueur;
+}
+void Joueur::setPhase(PhaseJeu PJ){
+    this->phaseJoueur=PJ;
+}
 
 void Joueur::setVictoryPoints(int a){
     victoryPoints=a;

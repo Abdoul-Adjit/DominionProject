@@ -257,10 +257,21 @@ std::vector<Carte*> initPlateau(){
     return cardsAdd;
 }
 
+std::string setStringPhase(Joueur* J){
+    if(J->getPhase()==PhaseJeu::Action){
+        return "Passer a la phase Achat";
+    }else{
+        return "Passer son tour";
+    }
+}
+
 int main()
 {  
     PlateauDeJeu* plateaujeu = new PlateauDeJeu();
     plateaujeu->setCartesDeJeu(initPlateau());
+    int indexJoueur=0;
+    Joueur* joueurTour;
+    
     sf::Font font;
     font.loadFromFile("arial.ttf");
     std::vector<std::string> filesBack {"back"};
@@ -275,8 +286,10 @@ int main()
     joueur1->piocher();
     joueur2->shuffle();
     joueur2->piocher();
-    int currentjoueur = 1;
+    joueurTour=joueur1;
+    joueurTour->setPhase(PhaseJeu::Action);
     std::vector<Joueur*> listeJoueurs {joueur1,joueur2};
+    plateaujeu->setOrdreDeJeu(listeJoueurs);
     std::vector<sf::Texture*> allTextures = openImages(allFiles);
     std::vector<sf::Texture*> texturePileBack = openImages({"pileback"});
     std::vector<sf::Texture*> texturesMainJ2 = openImages(filesBack);
@@ -287,11 +300,13 @@ int main()
     std::vector<sf::RectangleShape*> moneyVictory = loadMoneyVictory(texturesMV);
     std::vector<sf::CircleShape*> circlesStack = loadCirclesStack(); 
     Carte* nC = new Carte("back",0,TypeCarte::Action,true);
-    std::vector<sf::RectangleShape*> mainCarte = loadMain2(joueur1->getMain(),allTextures,allFiles);
+    std::vector<sf::RectangleShape*> mainCarte = loadMain2(joueurTour->getMain(),allTextures,allFiles);
     sf::RectangleShape* jouerCarte = loadJouerCarte(nC,allTextures,allFiles);
     sf::RenderWindow window(sf::VideoMode(windowX, windowY), "Dominion Menu");
 
-    sf::Text passerTour("Passer son tour",font,20);
+
+    std::string strPasserPhase = setStringPhase(joueurTour);
+    sf::Text passerTour(strPasserPhase,font,20);
     passerTour.setPosition(sf::Vector2f(windowX-200, windowY-300));
     passerTour.setFillColor(sf::Color::Black);
     
@@ -300,11 +315,13 @@ int main()
     passerTourButton.setFillColor(sf::Color::Blue);
 
 
+
+
     sf::RectangleShape ArgentButton(sf::Vector2f (170.f, 50.f));
     ArgentButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-190));
     ArgentButton.setFillColor(sf::Color::Blue);
 
-    sf::Text Argent("Argent : "+ std::to_string(joueur1->getArgent()),font,20);
+    sf::Text Argent("Argent : "+ std::to_string(joueurTour->getArgent()),font,20);
     Argent.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-180));
     Argent.setFillColor(sf::Color::Black);
 
@@ -313,7 +330,7 @@ int main()
     ActionsButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-130));
     ActionsButton.setFillColor(sf::Color::Blue);
 
-    sf::Text Actions("Actions : "+ std::to_string(joueur1->getActions()),font,20);
+    sf::Text Actions("Actions : "+ std::to_string(joueurTour->getActions()),font,20);
     Actions.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-120));
     Actions.setFillColor(sf::Color::Black);
 
@@ -322,7 +339,7 @@ int main()
     AchatButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-70));
     AchatButton.setFillColor(sf::Color::Blue);
 
-    sf::Text Achat("Achats : "+ std::to_string(joueur1->getAchats()),font,20);
+    sf::Text Achat("Achats : "+ std::to_string(joueurTour->getAchats()),font,20);
     Achat.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-60));
     Achat.setFillColor(sf::Color::Black);
 
@@ -332,7 +349,7 @@ int main()
     TourJoueurCase.setPosition(sf::Vector2f(windowX-190, windowY-(windowY-20)));
     TourJoueurCase.setFillColor(sf::Color::Blue);
 
-    sf::Text TourJoueur("Tour du joueur " + std::to_string(currentjoueur),font,20 );
+    sf::Text TourJoueur("Tour du joueur " + std::to_string(indexJoueur+1),font,20 );
     TourJoueur.setPosition(sf::Vector2f(windowX-180, windowY-(windowY-30)));
     TourJoueur.setFillColor(sf::Color::Black);
 
@@ -490,87 +507,76 @@ int main()
                         if(card->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))) && !drag){
                               auto it = std::find(begin(mainCarte),end(mainCarte),card);
                               int index = it - mainCarte.begin();
-                              if(((currentjoueur==1 && joueur1->getMain().at(index)->getType()!=TypeCarte::Victory ) 
-                              ||  (currentjoueur==2 && joueur2->getMain().at(index)->getType()!=TypeCarte::Victory ) ) ){
-                                SX= card->getPosition().x;
-                                SY= card->getPosition().y+20;
-                                OX = sf::Mouse::getPosition(window).x - card->getPosition().x;
-                                OY = sf::Mouse::getPosition(window).y - card->getPosition().y;
-                                drag=true;
-                                dragCarte = card;
-                            }
+                              if(joueurTour->getMain().at(index)->getType()!=TypeCarte::Victory ){
+                                if(joueurTour->getMain().at(index)->getType()==TypeCarte::Action && joueurTour->getPhase() == PhaseJeu::Action){
+                                    SX= card->getPosition().x;
+                                    SY= card->getPosition().y+20;
+                                    OX = sf::Mouse::getPosition(window).x - card->getPosition().x;
+                                    OY = sf::Mouse::getPosition(window).y - card->getPosition().y;
+                                    drag=true;
+                                    dragCarte = card;
+                                }
+                                
+                               else if(joueurTour->getMain().at(index)->getType()==TypeCarte::Money && joueurTour->getPhase() == PhaseJeu::Achat){
+                                    SX= card->getPosition().x;
+                                    SY= card->getPosition().y+20;
+                                    OX = sf::Mouse::getPosition(window).x - card->getPosition().x;
+                                    OY = sf::Mouse::getPosition(window).y - card->getPosition().y;
+                                    drag=true;
+                                    dragCarte = card;
+                               }  
+                              }
                         }
                     }
                 }
                 if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                      if (passerTourButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)){
-                        if(currentjoueur==1){
-                            joueur1->setAchats(1);
-                            joueur1->setArgent(0);
-                            joueur1->setActions(1);
-                            joueur2->piocher();
-                            mainCarte = loadMain2(joueur2->getMain(),allTextures,allFiles);
-                            currentjoueur=2;
-                            Actions.setString("Actions : "+ std::to_string(joueur2->getActions()));
-                            Argent.setString("Argent : "+ std::to_string(joueur2->getArgent()));
-                            
-                        }else{
-                            joueur2->setAchats(1);
-                            joueur2->setArgent(0);
-                            joueur2->setActions(1);
-                            joueur1->piocher();
-                            mainCarte = loadMain2(joueur1->getMain(),allTextures,allFiles);
-                            currentjoueur=1;
-                            Actions.setString("Actions : "+ std::to_string(joueur1->getActions()));
-                            Argent.setString("Argent : "+ std::to_string(joueur1->getArgent()));
+                        if(joueurTour->getPhase()==PhaseJeu::Achat){
+                            if(indexJoueur==plateaujeu->getOrdreDeJeu().size()-1){
+                                indexJoueur=0;
+                            }else{
+                                indexJoueur+=1;
+                            };
+                            joueurTour->setPhase(PhaseJeu::Attente);
+                            joueurTour=plateaujeu->getOrdreDeJeu().at(indexJoueur);
+                            joueurTour->setPhase(PhaseJeu::Action);
+                            joueurTour->setAchats(1);
+                            joueurTour->setArgent(0);
+                            joueurTour->setActions(1);
+                            joueurTour->piocher();
+                            mainCarte = loadMain2(joueurTour->getMain(),allTextures,allFiles);
+                            Actions.setString("Actions : "+ std::to_string(joueurTour->getActions()));
+                            Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent()));   
+                            TourJoueur.setString("Tour du joueur : "+ std::to_string(indexJoueur+1));
+                        }else if(joueurTour->getPhase()==PhaseJeu::Action){
+                            joueurTour->setPhase(PhaseJeu::Achat);
                         }
-                        TourJoueur.setString("Tour du joueur : "+ std::to_string(currentjoueur));
-                        
+                        strPasserPhase = setStringPhase(joueurTour);
+                        passerTour.setString(strPasserPhase);
+                   
+        
                      }
                 }
                 if(event.type == sf::Event::MouseButtonReleased )
-                {  
-                    
+                {     
                     if(jouerCarte->getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y) && drag && !lefthover){
                         drag = false;
                         lefthover=true;
                         dragCarte->setPosition(sf::Vector2f(jouerCarte->getPosition().x,jouerCarte->getPosition().y));   
                         jouerCarte=dragCarte;
-                    
-                        
-                        if(currentjoueur==1){
-                            std::vector<Carte*> cstock = joueur1->getMain();
-                            auto it = std::find(begin(mainCarte),end(mainCarte),dragCarte);
-                            int index = it - mainCarte.begin();
-                            Carte* c = cstock.at(index);
-                            joueur1->defausser(cstock.at(index));
-                            
-                            
-                            cstock.erase(begin(cstock)+index);                     
-                            joueur1->setMain(cstock);
-                            joueur1->jouerCarte(c,joueur1);
-                            Argent.setString("Argent : "+ std::to_string(joueur1->getArgent()));
-                            Achat.setString("Achats : "+ std::to_string(joueur1->getAchats()));
-                            Actions.setString("Actions : "+ std::to_string(joueur1->getActions()));
-                            mainCarte.clear();
-                            mainCarte = loadMain2(joueur1->getMain(),allTextures,allFiles);
-                        }else{
-                            std::vector<Carte*> cstock = joueur2->getMain();
-                            auto it = std::find(begin(mainCarte),end(mainCarte),dragCarte);
-                            int index = it - mainCarte.begin();
-                            Carte* c = cstock.at(index);
-                            joueur2->defausser(cstock.at(index));
-                           
-                            cstock.erase(begin(cstock)+index);
-                            joueur2->setMain(cstock);
-                            joueur2->jouerCarte(c,joueur2);
-                             Argent.setString("Argent : "+ std::to_string(joueur2->getArgent()));
-                            Achat.setString("Achats : "+ std::to_string(joueur2->getAchats()));
-                            Actions.setString("Actions : "+ std::to_string(joueur2->getActions()));
-                            mainCarte.clear();
-                            mainCarte = loadMain2(joueur2->getMain(),allTextures,allFiles);
-                    
-                        }
+                        std::vector<Carte*> cstock = joueurTour->getMain();
+                        auto it = std::find(begin(mainCarte),end(mainCarte),dragCarte);
+                        int index = it - mainCarte.begin();
+                        Carte* c = cstock.at(index);
+                        joueurTour->defausser(cstock.at(index));                                                        
+                        cstock.erase(begin(cstock)+index);                     
+                        joueurTour->setMain(cstock);
+                        joueurTour->jouerCarte(c,joueurTour);
+                        Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent()));
+                        Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
+                        Actions.setString("Actions : "+ std::to_string(joueurTour->getActions()));
+                        mainCarte.clear();
+                        mainCarte = loadMain2(joueurTour->getMain(),allTextures,allFiles);                
                     }
                     else if (drag){
                         drag = false;

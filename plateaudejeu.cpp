@@ -19,10 +19,16 @@ std::vector<Carte*> PlateauDeJeu::getCartesDeJeu(){
     return this->cartesDeJeu;
 }
 
-
+std::vector<Joueur*> PlateauDeJeu::getOrdreDeJeu(){
+    return this->ordreDeJeu;
+}
 void PlateauDeJeu::setCartesDeJeu(std::vector<Carte*> c){
     this->cartesDeJeu=c;
 }
+void PlateauDeJeu::setOrdreDeJeu(std::vector<Joueur*> j){
+    this->ordreDeJeu=j;
+}
+
 void PlateauDeJeu::lancer(){
 }
 
