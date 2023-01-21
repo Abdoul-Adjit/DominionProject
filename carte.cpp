@@ -9,7 +9,9 @@ Carte::Carte(std::string n, int c, TypeCarte t, bool d){
     dispo=d;
  }
 
-
+int Carte::getCout(){
+    return this->cout;
+}
 std::string Carte::getNom(){
     return this-> nom;
 }

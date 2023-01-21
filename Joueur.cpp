@@ -43,7 +43,7 @@ void Joueur::setArgent(int a){
 }
 
 int Joueur::getArgent(){
-    return argent;
+    return this->argent;
 }
 
 int Joueur::getIdj(){

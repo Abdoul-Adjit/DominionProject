@@ -236,23 +236,23 @@ std::vector<Carte*> initPlateau(){
     std::vector<Carte*> cardsAdd;
     Carte* c1 = new royaume_action("workshop",3,true,1,0,0,2,0);
     cardsAdd.push_back(c1);
-    Carte* c2 = new royaume_action("woodcutter",1,true,0,0,1,0,2);
+    Carte* c2 = new royaume_action("woodcutter",3,true,0,0,1,0,2);
     cardsAdd.push_back(c2);
-    Carte* c3 = new royaume_action("cave",1,true,1,0,0,0,0);
+    Carte* c3 = new royaume_action("cave",2,true,1,0,0,0,0);
     cardsAdd.push_back(c3);
-    Carte* c4 = new royaume_action("chapelle",1,true,0,0,0,0,0);
+    Carte* c4 = new royaume_action("chapelle",3,true,0,0,0,0,0);
     cardsAdd.push_back(c4);
-    Carte* c5 = new royaume_action("smithy",1,true,0,0,0,3,0);
+    Carte* c5 = new royaume_action("smithy",4,true,0,0,0,3,0);
     cardsAdd.push_back(c5);
-    Carte* c6 = new royaume_action("market",1,true,1,0,1,1,1);
+    Carte* c6 = new royaume_action("market",5,true,1,0,1,1,1);
     cardsAdd.push_back(c6);
-    Carte* c7 = new royaume_action("mine",1,true,0,0,0,0,0);
+    Carte* c7 = new royaume_action("mine",5,true,0,0,0,0,0);
     cardsAdd.push_back(c7);
-    Carte* c8 = new royaume_action("remodel",1,true,0,0,0,0,0);
+    Carte* c8 = new royaume_action("remodel",4,true,0,0,0,0,0);
     cardsAdd.push_back(c8);
-    Carte* c9 = new royaume_action("witch",1,true,0,0,0,2,0);
+    Carte* c9 = new royaume_action("witch",5,true,0,0,0,2,0);
     cardsAdd.push_back(c9);
-    Carte* c10 = new royaume_action("village",1,true,2,0,0,1,0);
+    Carte* c10 = new royaume_action("village",3,true,2,0,0,1,0);
     cardsAdd.push_back(c10);
     return cardsAdd;
 }
@@ -555,6 +555,25 @@ int main()
                         passerTour.setString(strPasserPhase);
                    
         
+                     }
+                     else{
+                        if(joueurTour->getAchats()>0){
+                        for(sf::RectangleShape* card : plateau){
+                                if(card->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window))) && joueurTour->getPhase()==PhaseJeu::Achat){
+                                    auto it = std::find(begin(plateau),end(plateau),card);
+                                    int index = it - plateau.begin();
+                                    Carte* carteJouee = plateaujeu->getCartesDeJeu().at(index);
+                                    if(joueurTour->getArgent()>=carteJouee->getCout()){
+                                        joueurTour->gainMoney(-(carteJouee->getCout()));
+                                        joueurTour->defausser(carteJouee);
+                                        joueurTour->gainAchats(-1);
+                                        Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent()));
+                                        Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
+                                    }
+                                }
+                            }
+                        }
+
                      }
                 }
                 if(event.type == sf::Event::MouseButtonReleased )
