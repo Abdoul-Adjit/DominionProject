@@ -11,7 +11,10 @@ class PlateauDeJeu{
         int idp=0;
 
         std::vector<Joueur*> ordreDeJeu;
-        std::vector<Carte*> cartesDeJeu; //std::vector<Pilecarte> pilecarteList; (Collection de piles de cartes du jeu)
+        std::vector<Carte*> cartesDeJeu;
+        std::vector<int> cartesRestanteJeu;
+        std::vector<Carte*> cartesVicTre; //std::vector<Pilecarte> pilecarteList; (Collection de piles de cartes du jeu)
+        std::vector<int> cartesRestanteVicTre;
         std::vector<Carte> cartesJoues;  // Collection de cartes jouees par les joueurs
         std::vector<Carte> rebut;   // Collection de cartes dans le rebut
         bool gameOver;   // Indicateur de fin de partie
@@ -38,6 +41,13 @@ class PlateauDeJeu{
         void setOrdreDeJeu(std::vector<std::string>);
         void ajouterJoueur(std::string);
         void ajouterCarte(Carte);
+        std::vector<Carte*> getCartesVicTre();
+        void setCartesVicTre(std::vector<Carte*>);
+        std::vector<int> getCartesRestantesVicTre();
+        void setCartesRestantesVicTre(std::vector<int>);
+        std::vector<int> getCartesRestantesJeu();
+        void setCartesRestantesJeu(std::vector<int>);
+        bool veriferVictoire();
         /* 
         // Constructeur
         Dominion(int numPlayers);

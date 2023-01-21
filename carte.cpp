@@ -22,3 +22,10 @@ std::string Carte::getNom(){
 TypeCarte Carte::getType(){
     return type;
 }
+
+int Carte::getCarteRestante(){
+    return this->carteRestante;
+}
+void Carte::setCarteRestante(int a){
+    this->carteRestante=a;
+}

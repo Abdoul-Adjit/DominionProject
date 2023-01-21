@@ -10,7 +10,7 @@ class Carte{
         std::string nom; // Nom de la carte
         int cout;
         TypeCarte type; 
-     
+        int carteRestante;
         // Type de la carte (Action, Argent, Victoire, etc.)
         // Indicateur de disponibilité de la carte (présente ou non dans le jeu)
         bool dispo;
@@ -25,6 +25,8 @@ class Carte{
         // Accesseur en lecture pour le coût de la carte en argent
         TypeCarte getType();
         bool getdispo();
+        void setCarteRestante(int);
+        int getCarteRestante();
   
 };
 
