@@ -9,7 +9,7 @@
 #include "victoire.h"
 #include "maindecartes.h"
 #include "royaume_action.h"
-
+#include "plateaudejeu.h"
 int windowX = 1920.f*0.9f;
 int windowY=1080.f*0.9f;
 
@@ -87,26 +87,32 @@ std::vector<sf::RectangleShape*> loadMain2(std::vector<Carte*> cards, std::vecto
     return rectanglesRes;
 }
 
-std::vector<sf::RectangleShape*> loadPlateau(std::vector<sf::Texture*> textures)
+std::vector<sf::RectangleShape*> loadPlateau(std::vector<Carte*> cards, std::vector<sf::Texture*> &textures, std::vector<std::string> nameFiles)
 {
-    std::vector<sf::RectangleShape*> cards;
+    std::vector<sf::RectangleShape*> res;
     float x=(windowX/2)-((110)*2.5f)-20;
     float y=(windowY/2)-290;
-    int i=0;
-    for(std::vector<sf::Texture*>::iterator it = textures.begin() ; it != textures.end() ; ++it)
+    int e=0;
+    int z=0;
+    for(Carte* c : cards)
     {
-        if(i==5){
+        if(e==5){
             x=(windowX/2)-((110)*2.5f)-20; 
             y=(windowY/2)-100;   
         }
-        i++;
+        e++;
+        for(int j=0;j<nameFiles.size();j++){
+            if(nameFiles.at(j)==c->getNom()){
+                z = j;
+            }
+        }
         sf::RectangleShape* s = new sf::RectangleShape(sf::Vector2f(110,180)); 
         s->setPosition(sf::Vector2f(x,y));
         x+=120;
-        s->setTexture(*it);
-        cards.push_back(s);
+        s->setTexture(textures.at(z));
+        res.push_back(s);
     }
-    return cards;
+    return res;
 }
 
 std::vector<sf::RectangleShape*> loadPlateau2(std::vector<Carte*> cards, std::map<std::string,sf::Texture*> textures )
@@ -226,17 +232,41 @@ std::vector<Carte*>  initDeck(){
     return cardsAdd;
 }
 
-
+std::vector<Carte*> initPlateau(){
+    std::vector<Carte*> cardsAdd;
+    Carte* c1 = new royaume_action("workshop",3,true,1,0,0,2,0);
+    cardsAdd.push_back(c1);
+    Carte* c2 = new royaume_action("woodcutter",1,true,0,0,1,0,2);
+    cardsAdd.push_back(c2);
+    Carte* c3 = new royaume_action("cave",1,true,1,0,0,0,0);
+    cardsAdd.push_back(c3);
+    Carte* c4 = new royaume_action("chapelle",1,true,0,0,0,0,0);
+    cardsAdd.push_back(c4);
+    Carte* c5 = new royaume_action("smithy",1,true,0,0,0,3,0);
+    cardsAdd.push_back(c5);
+    Carte* c6 = new royaume_action("market",1,true,1,0,1,1,1);
+    cardsAdd.push_back(c6);
+    Carte* c7 = new royaume_action("mine",1,true,0,0,0,0,0);
+    cardsAdd.push_back(c7);
+    Carte* c8 = new royaume_action("remodel",1,true,0,0,0,0,0);
+    cardsAdd.push_back(c8);
+    Carte* c9 = new royaume_action("witch",1,true,0,0,0,2,0);
+    cardsAdd.push_back(c9);
+    Carte* c10 = new royaume_action("village",1,true,2,0,0,1,0);
+    cardsAdd.push_back(c10);
+    return cardsAdd;
+}
 
 int main()
 {  
-
+    PlateauDeJeu* plateaujeu = new PlateauDeJeu();
+    plateaujeu->setCartesDeJeu(initPlateau());
     sf::Font font;
     font.loadFromFile("arial.ttf");
     std::vector<std::string> filesBack {"back"};
     std::vector<std::string> filesPlateau {"workshop","woodcutter","cave","chapelle","smithy","market","mine","remodel","witch","village"};
     std::vector<std::string> filesMV {"province","gold","duchy","silver","estate","copper","curse"};
-    std::vector<std::string> allFiles {"back","copper","silver","gold","estate","laboratory"};
+    std::vector<std::string> allFiles {"back","copper","silver","gold","estate","laboratory","workshop","woodcutter","cave","chapelle","smithy","market","mine","remodel","witch","village"};
     Humain* joueur1 = new Humain("1");
     Humain* joueur2= new Humain("1");
     joueur1->setDeck(initDeck());
@@ -253,7 +283,7 @@ int main()
     std::vector<sf::Texture*> texturesP = openImages(filesPlateau);
     std::vector<sf::Texture*> texturesMV = openImages(filesMV);
     std::vector<sf::Texture*> texturesJC = openImages(filesBack);
-    std::vector<sf::RectangleShape*> plateau = loadPlateau(texturesP);
+    std::vector<sf::RectangleShape*> plateau = loadPlateau(plateaujeu->getCartesDeJeu(),allTextures,allFiles);
     std::vector<sf::RectangleShape*> moneyVictory = loadMoneyVictory(texturesMV);
     std::vector<sf::CircleShape*> circlesStack = loadCirclesStack(); 
     Carte* nC = new Carte("back",0,TypeCarte::Action,true);

@@ -10,8 +10,8 @@ class PlateauDeJeu{
         static int idcount;
         int idp=0;
 
-        std::vector<Joueur> ordreDeJeu;
-        std::map<std::string, int> cartesDeJeu; //std::vector<Pilecarte> pilecarteList; (Collection de piles de cartes du jeu)
+        std::vector<Joueur*> ordreDeJeu;
+        std::vector<Carte*> cartesDeJeu; //std::vector<Pilecarte> pilecarteList; (Collection de piles de cartes du jeu)
         std::vector<Carte> cartesJoues;  // Collection de cartes jouees par les joueurs
         std::vector<Carte> rebut;   // Collection de cartes dans le rebut
         bool gameOver;   // Indicateur de fin de partie
@@ -22,8 +22,8 @@ class PlateauDeJeu{
         int getIdp();
         void setOrdreDeJeu(std::vector<Joueur>);
         std::vector<Joueur> getOrdreDeJeu();
-        void setCartesDeJeu(std::map<std::string, int>);
-        std::map<std::string, int> getCartesDeJeu();
+        void setCartesDeJeu(std::vector<Carte*>);
+        std::vector<Carte*> getCartesDeJeu();
         void ajouterJoueur(Joueur);
         void ajouterCarteDeJeu(std::string, int);
         void decrementerCarteDeJeu(std::string);
@@ -36,7 +36,6 @@ class PlateauDeJeu{
         Joueur getWinner();
         int getId();
         void setOrdreDeJeu(std::vector<std::string>);
-        void setCartesDeJeu(std::vector<Carte>);
         void ajouterJoueur(std::string);
         void ajouterCarte(Carte);
         /* 

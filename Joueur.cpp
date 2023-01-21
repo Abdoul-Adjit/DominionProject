@@ -6,6 +6,7 @@
 #include "victoire.h"
 #include "tresor.h"
 #include "royaume_action.h"
+#include "enumPhase.h"
 
 int Joueur::idc=0;
 
@@ -19,6 +20,7 @@ Joueur::Joueur(std::string i){
     idc++;
     std::vector<Carte*> m;
     this->main = m;
+    phaseJoueur=PhaseJeu::Attente;
 }
 std::string Joueur::getNom(){
     return nom;

@@ -1,8 +1,7 @@
 #ifndef JOUEUR_H
 #define JOUEUR_H
 #include "carte.h"
-#include "maindecartes.h"
-
+#include "enumPhase.h"
 class Joueur{
     private:
         static int idc;
@@ -11,6 +10,7 @@ class Joueur{
         int achats;
         int actions;
         int argent;
+        PhaseJeu phaseJoueur;
         std::vector<Carte*> deck;
         std::vector<Carte*> main;
         std::vector<Carte*> defausse;
@@ -30,6 +30,7 @@ class Joueur{
         */
     public:
         Joueur(std::string);
+        Joueur() = default;
         int getIdj();
         void setArgent(int);
         int getArgent();
