@@ -12,7 +12,7 @@ public:
     // Constructeur
     tresor(std::string name, int cost, int money, bool d):Carte(name,cost, TypeCarte::Money,d),valeur(money){};
     // Méthode d'exécution de l'effet de la carte
-    void play();
+
     void printc();
     void description();
     int getCout();

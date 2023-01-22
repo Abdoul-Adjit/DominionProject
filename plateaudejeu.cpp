@@ -68,3 +68,17 @@ bool PlateauDeJeu::veriferVictoire(){
     this.addJoueur(j);
 }
 */
+void PlateauDeJeu::setderniereCarteJoue(Carte* c){
+    this->derniereCarteJoue=c;
+}
+Carte* PlateauDeJeu::getderniereCarteJoue(){
+    return this->derniereCarteJoue;
+}
+
+std::vector<Carte*> PlateauDeJeu::getrebut(){
+    return this->rebut;
+}; 
+
+void PlateauDeJeu::addCarteRebut(Carte* c){
+    this->rebut.push_back(c);
+}

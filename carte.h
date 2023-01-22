@@ -4,7 +4,8 @@
 #include<vector>
 #include "enumTypeC.h"
 
-
+class PlateauDeJeu;
+class Joueur;
 class Carte{
     protected:
         std::string nom; // Nom de la carte

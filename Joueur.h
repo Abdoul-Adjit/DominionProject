@@ -2,6 +2,7 @@
 #define JOUEUR_H
 #include "carte.h"
 #include "enumPhase.h"
+class PlateauDeJeu;
 class Joueur{
     private:
         static int idc;
@@ -47,7 +48,7 @@ class Joueur{
         void setVictoryPoints(int);
         int getVictoryPoints();
         std::vector<Carte*> getDeck();
-        std::vector<Carte> getDefausse();
+        std::vector<Carte*> getDefausse();
         std::vector<Carte*> getMain();
         void setAchats(int);
         void jouerAI();
@@ -65,10 +66,13 @@ class Joueur{
         void trierDeck();
         void jouerCarte(Carte* c, Joueur* j);
         void piocherCarte();
+        void piocherCarte(Carte* c);
         PhaseJeu getPhase();
         void setPhase(PhaseJeu);
-
-        
+        void suppDeMain(Carte* c);
+        void addToDeck(Carte* c);
+        void jouerCarteFunc(Carte* c, Joueur* j, PlateauDeJeu* P);
+;
 
 
         /* 

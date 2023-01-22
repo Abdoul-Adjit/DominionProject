@@ -7,7 +7,7 @@
 #include "tresor.h"
 #include "royaume_action.h"
 #include "enumPhase.h"
-
+#include "plateaudejeu.h"
 int Joueur::idc=0;
 
 Joueur::Joueur(std::string i){
@@ -16,7 +16,7 @@ Joueur::Joueur(std::string i){
     achats = 1;
     actions = 1;
     argent = 0;
-    victoryPoints = 0;
+    victoryPoints = 3;
     idc++;
     std::vector<Carte*> m;
     this->main = m;
@@ -33,10 +33,10 @@ void Joueur::setPhase(PhaseJeu PJ){
 }
 
 void Joueur::setVictoryPoints(int a){
-    victoryPoints=a;
+    this->victoryPoints=a;
 }
 int Joueur::getVictoryPoints(){
-    return victoryPoints;
+    return this->victoryPoints;
 }
 void Joueur::setArgent(int a){
     this->argent = a;
@@ -50,7 +50,7 @@ int Joueur::getIdj(){
     return id;
 }
 void Joueur::gainVictoryPoints(int a){
-    setVictoryPoints(victoryPoints+a);
+    setVictoryPoints((this->victoryPoints)+a);
     //setVictoryPoints(getVictoryPoints()+a);
 }
 void Joueur::gainMoney(int a){
@@ -65,26 +65,7 @@ void Joueur::gainAchats(int a){
     setAchats((this->achats)+a);
     //setAchats(getAchats()+a);
 }
-void Joueur::jouerCarte(Carte* c, Joueur* j){
-    if(c->getType()==TypeCarte::Money){
-        tresor* d = static_cast<tresor*>(c);
-        j->gainMoney(d->getValeur());
-    }
-    if(c->getType()==TypeCarte::Action){
-        royaume_action* ra = static_cast<royaume_action*>(c);
-        j->gainActions(-1);
-        j->gainAchats(ra->getbuyBonus());
-        j->gainActions(ra->getactionBonus());
-        j->gainMoney(ra->getmoneyBonus());
-        int stock = ra->getcardBonus();
-        if(stock>0){
-            for(int i = 0;i<stock;i++){
-                j->piocherCarte();
-            }
-        }
-    }
 
-}
 void Joueur::printj(){
     std::cout<< "Joueur : " << getIdj() << "\n";
     std::cout<< "Achats : " << getAchats() << "\n";
@@ -244,6 +225,14 @@ void Joueur::defausser(Carte* c){
 void Joueur::acheterADeck(){
     //TODO
 }
+void Joueur::suppDeMain(Carte* c){
+    auto it = std::find(begin(this->main),end(this->main),c);
+    if(it!=this->main.end()){
+        this->main.erase(it);
+    }
+
+    
+}
 void Joueur::piocher(){
     
     for(int i=0;i<this->main.size();i++){
@@ -267,6 +256,9 @@ void Joueur::piocher(){
     
     }
 }
+std::vector<Carte*> Joueur::getDefausse(){
+    return this->defausse;
+}
 
 void Joueur::piocherCarte(){
 
@@ -285,8 +277,37 @@ void Joueur::piocherCarte(){
         }
      
 }
+void Joueur::piocherCarte(Carte* c){
+    this->main.push_back(c);
+}
+void Joueur::addToDeck(Carte* c){
+    this->deck.push_back(c);
+}
+
 void Joueur::trierDeck(){
     //TODO
 }
 
 
+void Joueur::jouerCarteFunc(Carte* c, Joueur* j, PlateauDeJeu* P){
+    if(c->getType()==TypeCarte::Money){
+        tresor* d = static_cast<tresor*>(c);
+        j->gainMoney(d->getValeur());
+    }
+    if(c->getType()==TypeCarte::Action){
+        royaume_action* ra = static_cast<royaume_action*>(c);
+        j->gainActions(-1);
+        j->gainAchats(ra->getbuyBonus());
+        j->gainActions(ra->getactionBonus());
+        j->gainMoney(ra->getmoneyBonus());
+        int stock = ra->getcardBonus();
+        if(stock>0){
+            for(int i = 0;i<stock;i++){
+                j->piocherCarte();
+            }
+        }
+        ra->play(j,P);
+        
+       
+    }
+}

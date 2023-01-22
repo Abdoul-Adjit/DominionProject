@@ -2,6 +2,7 @@
 #define ROYAUMEACTION_H
 #include "royaume.h"
 #include "royaume_effet.h"
+#include "plateaudejeu.h"
 class royaume_action : public royaume
 {
 private:
@@ -24,12 +25,14 @@ public:
     royaume_action(std::string name, int cost,bool d, int action, int victory,
                 int buy, int card, int money):royaume(name, cost,d),actionBonus(action), victoryPointBonus(victory),buyBonus(buy),cardBonus(card),moneyBonus(money){};
     // Méthode d'exécution de l'effet de la carte
-    void play();
+    virtual void play(Joueur* j, PlateauDeJeu* P){};
     int getactionBonus();
     int getvictoryPointBonus();
     int getbuyBonus();
     int getcardBonus();
     int getmoneyBonus();
+    virtual ~royaume_action(){};
+
 
 };
 
