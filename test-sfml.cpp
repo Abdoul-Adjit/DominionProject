@@ -7,7 +7,6 @@
 #include "carte.h"
 #include "tresor.h"
 #include "victoire.h"
-#include "maindecartes.h"
 #include "royaume_action.h"
 #include "plateaudejeu.h"
 #include "cartes/witch.h"
@@ -422,11 +421,20 @@ int main()
 
     sf::Text deckText("Deck",font,20 );
     deckText.setPosition(sf::Vector2f(350, windowY-230));
-    deckText.setFillColor(sf::Color::Black);
+    deckText.setFillColor(sf::Color(255,215,0));
+    deckText.setOutlineColor(sf::Color(192,192,192));
+    deckText.setOutlineThickness(0.5);
+    deckText.setFont(font);
+    deckText.setCharacterSize(30);
+
 
     sf::Text deckCarteRestante(std::to_string(joueurTour->getDeck().size()),font,20 );
     deckCarteRestante.setPosition(sf::Vector2f(365,windowY-110));
-    deckCarteRestante.setFillColor(sf::Color::White);
+    deckCarteRestante.setFillColor(sf::Color(255,215,0));
+    deckCarteRestante.setOutlineColor(sf::Color(192,192,192));
+    deckCarteRestante.setOutlineThickness(0.5);
+    deckCarteRestante.setFont(font);
+    deckCarteRestante.setCharacterSize(30);
 
 
     sf::RectangleShape defaussePile((sf::Vector2f(130.f,180.f))); 
@@ -435,26 +443,42 @@ int main()
 
     sf::Text defausseCarteRestante(std::to_string(joueurTour->getDefausse().size()),font,20 );
     defausseCarteRestante.setPosition(sf::Vector2f(windowX-335,windowY-110));
-    defausseCarteRestante.setFillColor(sf::Color::White);
+    defausseCarteRestante.setFillColor(sf::Color(255,215,0));
+    defausseCarteRestante.setOutlineColor(sf::Color(192,192,192));
+    defausseCarteRestante.setOutlineThickness(0.5);
+    defausseCarteRestante.setFont(font);
+    defausseCarteRestante.setCharacterSize(30);
+
 
 
     sf::Text defausseText("Defausse",font,20 );
     defausseText.setPosition(sf::Vector2f(windowX-380, windowY-230));
-    defausseText.setFillColor(sf::Color::Black);
+    defausseText.setFillColor(sf::Color(255,215,0));
+    defausseText.setOutlineColor(sf::Color(192,192,192));
+    defausseText.setOutlineThickness(0.5);
+    defausseText.setFont(font);
+    defausseText.setCharacterSize(30);
 
 
     sf::RectangleShape rebutPile((sf::Vector2f(130.f,180.f))); 
     rebutPile.setPosition(sf::Vector2f(windowX-(windowX*0.10f),windowY-(windowY*0.7f)));
     rebutPile.setTexture(texturePileBack.at(0));
-
+    
     sf::Text rebutCarteRestante(std::to_string(plateaujeu->getrebut().size()),font,20 );
     rebutCarteRestante.setPosition(sf::Vector2f(windowX-(windowX*0.10f) +65,windowY-(windowY*0.7f)+90));
-    rebutCarteRestante.setFillColor(sf::Color::White);
-
+    rebutCarteRestante.setFillColor(sf::Color(255,215,0));
+    rebutCarteRestante.setOutlineColor(sf::Color(192,192,192));
+    rebutCarteRestante.setOutlineThickness(0.5);
+    rebutCarteRestante.setFont(font);
+    rebutCarteRestante.setCharacterSize(30);
 
     sf::Text rebutText("Rebut",font,20 );
     rebutText.setPosition(sf::Vector2f(windowX-(windowX*0.08f),windowY-(windowY*0.73f)));
-    rebutText.setFillColor(sf::Color::Black);
+    rebutText.setFillColor(sf::Color(255,215,0));
+    rebutText.setOutlineColor(sf::Color(192,192,192));
+    rebutText.setOutlineThickness(0.5);
+    rebutText.setFont(font);
+    rebutText.setCharacterSize(30);
     
     std::vector<sf::RectangleShape*> buttonChoixJoueurs = initbuttonChoixJoueurs();
     std::vector<sf::Text*> textChoixJoueurs= inittextChoixJoueurs(font2);
@@ -1030,7 +1054,7 @@ int main()
        
         if(plateaujeu->veriferVictoire()){
             affiVictoireText.setString("Le joueur " + std::to_string(plateaujeu->quiVictoire()+1) + " a gagne la partie !");
-             plateaujeu = new PlateauDeJeu();
+            plateaujeu = new PlateauDeJeu();
             plateaujeu->setCartesDeJeu(initPlateau());
             plateaujeu->setCartesVicTre(initVicTre());
             joueurTour->setIdc();

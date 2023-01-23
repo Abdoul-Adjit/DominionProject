@@ -1,7 +1,6 @@
 #ifndef ROYAUMEACTION_H
 #define ROYAUMEACTION_H
 #include "royaume.h"
-#include "royaume_effet.h"
 #include "plateaudejeu.h"
 class royaume_action : public royaume
 {
