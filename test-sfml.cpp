@@ -661,7 +661,7 @@ int main()
     bool discardingInf=false;
     int nombreJoueurs = 2;
   
-
+    sf::Vector2f mouseposition;
 
 
 
@@ -776,7 +776,8 @@ int main()
                               if(joueurTour->getMain().at(index)->getType()!=TypeCarte::Victory ){
                                 if(joueurTour->getMain().at(index)->getType()==TypeCarte::Action && joueurTour->getPhase() == PhaseJeu::Action && joueurTour->getActions()>0){
                                     SX= card->getPosition().x;
-                                    SY= card->getPosition().y+20;
+                                    SY= card->getPosition().y;
+                                    mouseposition=sf::Vector2f(sf::Mouse::getPosition(window));
                                     OX = sf::Mouse::getPosition(window).x - card->getPosition().x;
                                     OY = sf::Mouse::getPosition(window).y - card->getPosition().y;
                                     drag=true;
@@ -785,7 +786,8 @@ int main()
                                 
                                else if(joueurTour->getMain().at(index)->getType()==TypeCarte::Money && joueurTour->getPhase() == PhaseJeu::Achat){
                                     SX= card->getPosition().x;
-                                    SY= card->getPosition().y+20;
+                                    SY= card->getPosition().y;
+                                    mouseposition=sf::Vector2f(sf::Mouse::getPosition(window));
                                     OX = sf::Mouse::getPosition(window).x - card->getPosition().x;
                                     OY = sf::Mouse::getPosition(window).y - card->getPosition().y;
                                     drag=true;
@@ -794,7 +796,8 @@ int main()
                               }
                               if(discardingInf || trash){
                                     SX= card->getPosition().x;
-                                    SY= card->getPosition().y+20;
+                                    SY= card->getPosition().y;
+                                    mouseposition=sf::Vector2f(sf::Mouse::getPosition(window));
                                     OX = sf::Mouse::getPosition(window).x - card->getPosition().x;
                                     OY = sf::Mouse::getPosition(window).y - card->getPosition().y;
                                     drag=true;
@@ -967,9 +970,16 @@ int main()
                                 textesAffiCartesRestantes = loadTextCartesRestantes(plateaujeu->getCartesDeJeu(),font2);
                                 textesAffiCartesRestantesVT = loadTextCartesRestantesVT(plateaujeu->getCartesVicTre(),font2);   
                             }else{
-                                drag = false;
-                                lefthover=true;
-                                dragCarte->setPosition(sf::Vector2f(SX,SY));
+                                if(mouseposition==sf::Vector2f(sf::Mouse::getPosition(window))){
+                                    drag = false;
+                                    lefthover=true;
+                                    dragCarte->setPosition(sf::Vector2f(SX,SY));
+                                }else{
+                                    drag = false;
+                                    lefthover=true;
+                                    dragCarte->setPosition(sf::Vector2f(SX,SY+20));
+                                }
+                                
                             }
                         
                     }else if(rebutPile.getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y) && drag && !lefthover && trash){
@@ -992,7 +1002,13 @@ int main()
                                         trashcount=0;
                                     }
                                 }else{
-                                    dragCarte->setPosition(sf::Vector2f(SX,SY));
+                                    if(mouseposition==sf::Vector2f(sf::Mouse::getPosition(window))){ 
+                                        dragCarte->setPosition(sf::Vector2f(SX,SY));
+                                    }
+                                    else{
+                                         dragCarte->setPosition(sf::Vector2f(SX,SY+20));
+                                    }
+                                   
                                 }
                             }else if(plateaujeu->getderniereCarteJoue()->getNom()=="remodel" ){
                                 drag = false;
@@ -1042,9 +1058,15 @@ int main()
                             mainCarte = loadMain(joueurTour->getMain(),allTextures,allFiles);    
                     }
                     else if (drag){
-                        drag = false;
-                        lefthover=true;
-                        dragCarte->setPosition(sf::Vector2f(SX,SY));
+                                if(mouseposition==sf::Vector2f(sf::Mouse::getPosition(window))){
+                                    drag = false;
+                                    lefthover=true;
+                                    dragCarte->setPosition(sf::Vector2f(SX,SY));
+                                }else{
+                                    drag = false;
+                                    lefthover=true;
+                                    dragCarte->setPosition(sf::Vector2f(SX,SY+20));
+                                }
                     }
                 }
                 

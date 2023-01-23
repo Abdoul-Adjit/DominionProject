@@ -15,9 +15,7 @@ int Carte::getCout(){
 std::string Carte::getNom(){
     return this-> nom;
 }
-/*void Carte::printc(){
-    std::cout<< "Carte : " << nom << " Cout : " << cout << "\n";
-}*/
+
 
 TypeCarte Carte::getType(){
     return type;

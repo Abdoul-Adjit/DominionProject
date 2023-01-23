@@ -9,10 +9,6 @@ Humain::Humain(std::string i):Joueur(i){
 }
 
 
-void Humain::printh(){
-
-    this -> Joueur::printj();
-}
 
 void Humain::setAchats(int a){
     this-> Joueur::setAchats(a);
