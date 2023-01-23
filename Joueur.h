@@ -32,6 +32,7 @@ class Joueur{
     public:
         Joueur(std::string);
         Joueur() = default;
+        ~Joueur()=default;
         int getIdj();
         void setArgent(int);
         int getArgent();
@@ -72,7 +73,7 @@ class Joueur{
         void suppDeMain(Carte* c);
         void addToDeck(Carte* c);
         void jouerCarteFunc(Carte* c, Joueur* j, PlateauDeJeu* P);
-;
+        void setIdc();
 
 
         /* 

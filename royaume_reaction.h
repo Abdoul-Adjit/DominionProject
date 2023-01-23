@@ -9,7 +9,7 @@ private:
     /* data */
 public:
     royaume_reaction(/* args */);
-    ~royaume_reaction();
+    ~royaume_reaction()=default;
 };
 
 

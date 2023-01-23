@@ -1,6 +1,6 @@
 
 CXX=g++
-CXXFLAGS=-Wall -Wextra -g -no-pie
+CXXFLAGS=-Wall -Wextra -g 
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $< -c -o $@

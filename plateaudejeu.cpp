@@ -39,6 +39,18 @@ void PlateauDeJeu::setCartesVicTre(std::vector<Carte*> c){
 std::vector<Carte*> PlateauDeJeu::getCartesVicTre(){
     return this->cartesVicTre;
 }
+int PlateauDeJeu::quiVictoire(){
+    int max=0;
+    int jgagnant=0;
+    for(Joueur* j : this->getOrdreDeJeu()){
+        if(j->getVictoryPoints()>max){
+            jgagnant= j->getIdj();
+            max=j->getVictoryPoints();
+        }
+    } 
+    return jgagnant;
+
+ }
 
 bool PlateauDeJeu::veriferVictoire(){
     int a=0;

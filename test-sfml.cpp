@@ -56,7 +56,7 @@ std::vector<sf::RectangleShape*> loadMain(std::vector<Carte*> cards, std::vector
         sf::RectangleShape* s = new sf::RectangleShape(sf::Vector2f(110,180)); 
         s->setPosition(sf::Vector2f(x,windowY-190));
         x+=addx;
-        for(int j=0;j<nameFiles.size();j++){
+        for(size_t j=0;j<nameFiles.size();j++){
             if(nameFiles.at(j)==c->getNom()){
                 i = j;
             }
@@ -81,7 +81,7 @@ std::vector<sf::RectangleShape*> loadPlateau(std::vector<Carte*> cards, std::vec
             y=(windowY/2)-100;   
         }
         e++;
-        for(int j=0;j<nameFiles.size();j++){
+        for(size_t j=0;j<nameFiles.size();j++){
             if(nameFiles.at(j)==c->getNom()){
                 z = j;
             }
@@ -103,7 +103,6 @@ std::vector<sf::RectangleShape*> loadMoneyVictory2(std::vector<Carte*> cards, st
     float x=5;
     float y=30;
     int i=0;
-    int e=0;
     int z=0;
    for(Carte* c : cards)
     {
@@ -113,7 +112,7 @@ std::vector<sf::RectangleShape*> loadMoneyVictory2(std::vector<Carte*> cards, st
         }
         i++;
         sf::RectangleShape* s = new sf::RectangleShape(sf::Vector2f(110.f*0.9,180.f*0.9)); 
-        for(int j=0;j<nameFiles.size();j++){
+        for(size_t j=0;j<nameFiles.size();j++){
             if(nameFiles.at(j)==c->getNom()){
                 z = j;
             }
@@ -132,8 +131,6 @@ std::vector<sf::Text*> loadTextCartesRestantesVT(std::vector<Carte*> cards ,sf::
     float x=115;
     float y=30;
     int i=0;
-    int e=0;
-    int z=0;
    for(Carte* c : cards)
     {
         if(i==2 || i==4 || i==6){
@@ -144,10 +141,12 @@ std::vector<sf::Text*> loadTextCartesRestantesVT(std::vector<Carte*> cards ,sf::
         std::string a =  std::to_string(c->getCarteRestante());
         sf::Text* s = new sf::Text();
         s->setFont(*font);
-        s->setCharacterSize(10);
         s->setString(a);
         s->setPosition(sf::Vector2f(x,y));
-        s->setFillColor(sf::Color::Black);
+        s->setFillColor(sf::Color(255,215,0));
+        s->setOutlineColor(sf::Color(192,192,192));
+        s->setOutlineThickness(0.5);
+        s->setCharacterSize(30);
         x+=110*0.9 + 40;
         res.push_back(s);
     }
@@ -159,7 +158,6 @@ std::vector<sf::Text*> loadTextCartesRestantes(std::vector<Carte*> cards ,sf::Fo
     float x=(windowX/2)-((110)*2.5f)-20;
     float y=(windowY/2)-320;
     int e=0;
-    int z=0;
     for(Carte* c : cards)
     {
         if(e==5){
@@ -170,10 +168,12 @@ std::vector<sf::Text*> loadTextCartesRestantes(std::vector<Carte*> cards ,sf::Fo
         std::string a =  std::to_string(c->getCarteRestante());
         sf::Text* s = new sf::Text();
         s->setFont(*font);
-        s->setCharacterSize(10);
         s->setString(a);
         s->setPosition(sf::Vector2f(x,y));
-        s->setFillColor(sf::Color::Black);
+        s->setFillColor(sf::Color(255,215,0));
+        s->setOutlineColor(sf::Color(192,192,192));
+        s->setOutlineThickness(0.5);
+        s->setCharacterSize(25);
         x+=120;
         res.push_back(s);
     }
@@ -187,7 +187,7 @@ sf::RectangleShape* loadJouerCarte(Carte* card, std::vector<sf::Texture*> &textu
     sf::RectangleShape* s = new sf::RectangleShape(sf::Vector2f(110.f,180.f)); 
     s->setPosition(sf::Vector2f(x,y));
     int i = 0;
-    for(int j=0;j<nameFiles.size();j++){
+    for(size_t j=0;j<nameFiles.size();j++){
         if(nameFiles.at(j)==card->getNom()){
             i=j;
         }
@@ -195,20 +195,53 @@ sf::RectangleShape* loadJouerCarte(Carte* card, std::vector<sf::Texture*> &textu
     s->setTexture(textures.at(i));
     return s;
 }
+std::vector<sf::RectangleShape*> initbuttonChoixJoueurs(){
+    std::vector<sf::RectangleShape*> rectanglesRes;
+    float x=windowX*0.35-25;
+    float y=windowY*0.5-25;
+    for(int i=0;i<4;i++){
+        sf::RectangleShape* s = new sf::RectangleShape(sf::Vector2f(50.f,50.f));
+        s->setPosition(sf::Vector2f(x,y));
+        s->setFillColor(sf::Color::White);
+        x+=windowX*0.1;
+        rectanglesRes.push_back(s);
+    }
+    return rectanglesRes; 
 
-std::vector<Carte*>  initDeck(){
+}
+
+std::vector<sf::Text*> inittextChoixJoueurs(sf::Font* font){
+ std::vector<sf::Text*> textRes;
+    float x=windowX*0.35-5;
+    float y=windowY*0.5-12.5f;
+    for(int i=0;i<4;i++){
+        sf::Text* s = new sf::Text();
+        s->setString(std::to_string(i+1));
+        s->setPosition(sf::Vector2f(x,y));
+        s->setFillColor(sf::Color::Black);
+        s->setFont(*font);
+        s->setCharacterSize(20);
+        x+=windowX*0.1;
+        textRes.push_back(s);
+    }
+    return textRes; 
+}
+std::vector<Carte*>  initDeck(PlateauDeJeu* P){
     std::vector<Carte*> cardsAdd;
-    Carte* c1 = new victoire("estate",1,1,true);
-    Carte* c2 = new tresor("copper",1,1,true);
-    for(int i=0;i<7;i++){
-        cardsAdd.push_back(c2);
+    for(Carte* c : P->getCartesVicTre()){
+        if(c->getNom()=="estate"){
+            for(int i=0;i<3;i++){
+                cardsAdd.push_back(c);
+                c->setCarteRestante(c->getCarteRestante()-1);
+            }
+        }else if(c->getNom()=="copper"){
+            for(int i=0;i<7;i++){
+                cardsAdd.push_back(c);
+                c->setCarteRestante(c->getCarteRestante()-1);
+            }
+        }
+    
     }
-      for(int i=0;i<3;i++){
-        cardsAdd.push_back(c1);
-    }
-    Carte* c9 = new witch("witch",5,true,0,0,0,2,0);
-    c9->setCarteRestante(10);
-    cardsAdd.push_back(c9);
     return cardsAdd;
 }
 
@@ -250,22 +283,22 @@ std::vector<Carte*> initPlateau(){
 std::vector<Carte*> initVicTre(){
     std::vector<Carte*> cardsAdd;
     Carte* c1 = new tresor("copper",0,1,true);
-    c1->setCarteRestante(10);
+    c1->setCarteRestante(60);
     cardsAdd.push_back(c1);
     Carte* c2 = new victoire("estate",2,1,true);
-    c2->setCarteRestante(10);
+    c2->setCarteRestante(18);
     cardsAdd.push_back(c2);
     Carte* c3 = new tresor("silver",3,2,true);
-    c3->setCarteRestante(10);
+    c3->setCarteRestante(40);
     cardsAdd.push_back(c3);
     Carte* c4 = new victoire("duchy",5,3,true);
-    c4->setCarteRestante(10);
+    c4->setCarteRestante(8);
     cardsAdd.push_back(c4);
     Carte* c5 = new tresor("gold",6,3,true);
-    c5->setCarteRestante(10);
+    c5->setCarteRestante(30);
     cardsAdd.push_back(c5);
     Carte* c6 = new victoire("province",8,6,true);
-    c6->setCarteRestante(10);
+    c6->setCarteRestante(8);
     cardsAdd.push_back(c6);
     Carte* c7 = new victoire("curse",0,-1,true);
     c7->setCarteRestante(10);
@@ -289,31 +322,31 @@ int main()
     plateaujeu->setCartesVicTre(initVicTre());
     int indexJoueur=0;
     Joueur* joueurTour;
-    
+    sf::Texture texture;
+    texture.loadFromFile("images/ButtonDominion.png");
+    sf::Texture texturetiquette;
+    texturetiquette.loadFromFile("images/etiquettejoueur.png");
+    sf::Texture passerTourtexture;
+    passerTourtexture.loadFromFile("images/passertourbutton.png");
+
+    sf::Uint8 light = 100;
     sf::Font font;
-    font.loadFromFile("arial.ttf");
+    font.loadFromFile("EnchantedLandDS.otf");
     std::vector<std::string> filesBack {"back"};
     std::vector<std::string> filesPlateau {"workshop","woodcutter","cave","chapelle","smithy","market","mine","remodel","witch","village"};
     std::vector<std::string> filesMV {"province","gold","duchy","silver","estate","copper","curse"};
     std::vector<std::string> allFiles {"back","copper","silver","gold","estate","province","duchy","curse","laboratory","workshop","woodcutter","cave","chapelle","smithy","market","mine","remodel","witch","village"};
     Humain* joueur1 = new Humain("1");
-    Humain* joueur2= new Humain("1");
-    Humain* joueur3= new Humain("1");
-    joueur1->setDeck(initDeck());
-    joueur2->setDeck(initDeck());;
+    joueur1->setDeck(initDeck(plateaujeu));
     joueur1->shuffle();
     joueur1->piocher();
+    Humain* joueur2 = new Humain("2");
+    joueur2->setDeck(initDeck(plateaujeu));
     joueur2->shuffle();
     joueur2->piocher();
-    joueur2->piocher();
-    joueur3->setDeck(initDeck());
-    joueur3->shuffle();
-    joueur3->piocher();
-    joueur3->piocher();
-
     joueurTour=joueur1;
     joueurTour->setPhase(PhaseJeu::Action);
-    std::vector<Joueur*> listeJoueurs {joueur1,joueur2,joueur3};
+    std::vector<Joueur*> listeJoueurs {joueur1,joueur2};
     plateaujeu->setOrdreDeJeu(listeJoueurs);
     std::vector<sf::Texture*> allTextures = openImages(allFiles);
     std::vector<sf::Texture*> texturePileBack = openImages({"pileback"});
@@ -325,53 +358,59 @@ int main()
     sf::RectangleShape* jouerCarte = loadJouerCarte(nC,allTextures,allFiles);
     sf::RenderWindow window(sf::VideoMode(windowX, windowY), "Dominion Menu");
     sf::Font* font2 = new sf::Font();
-    font2->loadFromFile("arial.ttf");
+    font2->loadFromFile("EnchantedLandDS.otf");
     std::vector<sf::Text*> textesAffiCartesRestantes = loadTextCartesRestantes(plateaujeu->getCartesDeJeu(),font2);
     std::vector<sf::Text*> textesAffiCartesRestantesVT = loadTextCartesRestantesVT(plateaujeu->getCartesVicTre(),font2);
 
     std::string strPasserPhase = setStringPhase(joueurTour);
     sf::Text passerTour(strPasserPhase,font,20);
-    passerTour.setPosition(sf::Vector2f(windowX-200, windowY-300));
-    passerTour.setFillColor(sf::Color::Black);
+    passerTour.setPosition(sf::Vector2f(windowX-270, windowY-300));
+    passerTour.setFillColor(sf::Color::White);
     
-    sf::RectangleShape passerTourButton(sf::Vector2f (170.f, 50.f));
+   sf::RectangleShape passerTourButton(sf::Vector2f (170.f, 50.f));
     passerTourButton.setPosition(sf::Vector2f(windowX-210, windowY-310));
-    passerTourButton.setFillColor(sf::Color::Blue);
-
-
+    passerTourButton.setTexture(&passerTourtexture);
 
 
     sf::RectangleShape ArgentButton(sf::Vector2f (170.f, 50.f));
     ArgentButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-190));
     ArgentButton.setFillColor(sf::Color::Blue);
 
-    sf::Text Argent("Argent : "+ std::to_string(joueurTour->getArgent()),font,20);
-    Argent.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-180));
+
+    sf::Text Argent(std::to_string(joueurTour->getArgent()),font,30);
+    Argent.setPosition(sf::Vector2f(windowX-(windowX-3*43+3), windowY-136));
     Argent.setFillColor(sf::Color::Black);
+    Argent.setOutlineColor(sf::Color(192,192,192));
+    Argent.setOutlineThickness(0.5);
 
 
     sf::RectangleShape ActionsButton(sf::Vector2f (170.f, 50.f));
     ActionsButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-130));
     ActionsButton.setFillColor(sf::Color::Blue);
 
-    sf::Text Actions("Actions : "+ std::to_string(joueurTour->getActions()),font,20);
-    Actions.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-120));
+    sf::Text Actions(std::to_string(joueurTour->getActions()),font,30);
+    Actions.setPosition(sf::Vector2f(windowX-(windowX-5*43), windowY-136));
     Actions.setFillColor(sf::Color::Black);
+    Actions.setOutlineColor(sf::Color(192,192,192));
+    Actions.setOutlineThickness(0.5);
 
 
     sf::RectangleShape AchatButton(sf::Vector2f (170.f, 50.f));
     AchatButton.setPosition(sf::Vector2f(windowX-(windowX-10), windowY-70));
     AchatButton.setFillColor(sf::Color::Blue);
 
-    sf::Text Achat("Achats : "+ std::to_string(joueurTour->getAchats()),font,20);
-    Achat.setPosition(sf::Vector2f(windowX-(windowX-20), windowY-60));
+    sf::Text Achat(std::to_string(joueurTour->getAchats()),font,30);
+    Achat.setPosition(sf::Vector2f(windowX-(windowX-56), windowY-136));
     Achat.setFillColor(sf::Color::Black);
+    Achat.setOutlineColor(sf::Color(192,192,192));
+    Achat.setOutlineThickness(0.5);
+
 
 
 
     sf::RectangleShape TourJoueurCase(sf::Vector2f (170.f, 50.f));
     TourJoueurCase.setPosition(sf::Vector2f(windowX-190, windowY-(windowY-20)));
-    TourJoueurCase.setFillColor(sf::Color::Blue);
+    TourJoueurCase.setTexture(&texturetiquette);
 
     sf::Text TourJoueur("Tour du joueur " + std::to_string(indexJoueur+1),font,20 );
     TourJoueur.setPosition(sf::Vector2f(windowX-180, windowY-(windowY-30)));
@@ -416,36 +455,82 @@ int main()
     sf::Text rebutText("Rebut",font,20 );
     rebutText.setPosition(sf::Vector2f(windowX-(windowX*0.08f),windowY-(windowY*0.73f)));
     rebutText.setFillColor(sf::Color::Black);
+    
+    std::vector<sf::RectangleShape*> buttonChoixJoueurs = initbuttonChoixJoueurs();
+    std::vector<sf::Text*> textChoixJoueurs= inittextChoixJoueurs(font2);
  
     
-    
-
-
-
-    // joueur1->gainActions(1);                                                 **Ensemble pour 
+   // joueur1->gainActions(1);                                                 **Ensemble pour 
     // Actions.setString("Actions : "+ std::to_string(joueur1->getActions())); **affichage
-    sf::RectangleShape* bouttontitre = new sf::RectangleShape(sf::Vector2f(500/2,500/4));
-    sf::RectangleShape* bouttonjouer= new sf::RectangleShape(sf::Vector2f(500/4,500/6+10));
-    sf::RectangleShape* bouttonquit= new sf::RectangleShape(sf::Vector2f(500/4,500/6+10));
-    sf::RectangleShape* bouttonreprendre = new sf::RectangleShape(sf::Vector2f(500/3,500/6+10));
-    sf::RectangleShape* bouttonregle = new sf::RectangleShape(sf::Vector2f(500/4,500/6+10));
-    sf::Texture texture;
-    texture.loadFromFile("images/ButtonDominion.png");
+    sf::RectangleShape* bouttontitre = new sf::RectangleShape(sf::Vector2f(windowX/4,windowY/6));
+    sf::RectangleShape* bouttonjouer= new sf::RectangleShape(sf::Vector2f(windowX/6,windowY/8));
+    sf::RectangleShape* bouttonquit= new sf::RectangleShape(sf::Vector2f(windowX/6,windowY/8));
+    sf::RectangleShape* bouttonoption = new sf::RectangleShape(sf::Vector2f(windowX/6,windowY/8));
+    sf::RectangleShape* bouttonregle = new sf::RectangleShape(sf::Vector2f(windowX/6,windowY/8));
+    sf::RectangleShape* bouttonretour = new sf::RectangleShape(sf::Vector2f(windowX/6,windowY/8));
+    sf::RectangleShape* buttoninforules = new sf::RectangleShape(sf::Vector2f(windowX/6,windowX/10));
+    sf::RectangleShape* bouttonplayerinfo = new sf::RectangleShape(sf::Vector2f(windowX/6,windowX/10));
+    sf::RectangleShape* buyicon = new sf::RectangleShape(sf::Vector2f(windowX/12,windowX/12));
+    sf::RectangleShape* actionicon = new sf::RectangleShape(sf::Vector2f(windowX/12,windowX/12));
+    sf::RectangleShape* coinicon = new sf::RectangleShape(sf::Vector2f(windowX/12,windowX/12));
+
+    
+    sf::Texture texture2;
+    sf::Texture texture3;
+    sf::Texture texture4;
+    sf::Texture texture5;
+
+    texture2.loadFromFile("images/ruleboard.png");
+    buttoninforules->setTexture(&texture2);
+    buttoninforules->setPosition(windowX-buttoninforules->getGlobalBounds().width*5,0);
+    buttoninforules->setScale(4.01,4.01);
+
+    texture3.loadFromFile("images/banniere.png");
+    bouttonplayerinfo->setTexture(&texture3);
+    bouttonplayerinfo->setPosition(sf::Vector2f(0, windowY-210));
+    bouttonplayerinfo->setScale(1.4,1.4);
+    
     bouttontitre->setTexture(&texture);
-    bouttontitre->setPosition(0,40);
+    bouttontitre->setPosition(windowX/2-bouttontitre->getGlobalBounds().width,windowY/2-bouttontitre->getGlobalBounds().height-windowY/6);
     bouttontitre->setScale(2,2);
+
+    texture2.loadFromFile("images/money-bag.png");
+    buyicon->setTexture(&texture2);
+    buyicon->setPosition(sf::Vector2f(windowX-(windowX-24), windowY-160));
+    buyicon->setScale(0.7,0.7);
+
+    texture4.loadFromFile("images/coin.png");
+    coinicon->setTexture(&texture4);
+    coinicon->setPosition(sf::Vector2f(windowX-(windowX-24-buyicon->getGlobalBounds().width), windowY-160));
+    coinicon->setScale(0.7,0.7);
+
+    texture5.loadFromFile("images/sword.png");
+    actionicon->setTexture(&texture5);
+    actionicon->setPosition(sf::Vector2f(windowX-(windowX-34-buyicon->getGlobalBounds().width-coinicon->getGlobalBounds().width), windowY-160));
+    actionicon->setScale(0.7,0.7);
+
+
     bouttonjouer->setTexture(&texture);
-    bouttonjouer->setPosition(0,window.getSize().y-120);
-    //bouttonjouer->setScale(0.112,0.112);
-    bouttonreprendre->setTexture(&texture);
-    bouttonreprendre->setPosition(bouttonjouer->getGlobalBounds().width-18,window.getSize().y-120);
-    //bouttonreprendre->setScale(0.112,0.112);
+    bouttonjouer->setPosition(0,windowY-bouttonjouer->getGlobalBounds().height-windowY/8);
+    bouttonjouer->setScale(1.6,1.6);
+
+    bouttonoption->setTexture(&texture);
+    bouttonoption->setPosition(bouttonjouer->getGlobalBounds().width,windowY-bouttonoption->getGlobalBounds().height-windowY/8);
+    bouttonoption->setScale(1.6,1.6);
+
     bouttonregle->setTexture(&texture);
-    bouttonregle->setPosition(bouttonjouer->getGlobalBounds().width+bouttonreprendre->getGlobalBounds().width-30,window.getSize().y-120);
-    //bouttonregle->setScale(0.112,0.112);
+    bouttonregle->setPosition(bouttonjouer->getGlobalBounds().width+bouttonoption->getGlobalBounds().width,windowY-bouttonregle->getGlobalBounds().height-windowY/8);
+    bouttonregle->setScale(1.6,1.6);
+
     bouttonquit->setTexture(&texture);
-    bouttonquit->setPosition(bouttonjouer->getGlobalBounds().width+bouttonreprendre->getGlobalBounds().width+bouttonregle->getGlobalBounds().width-40,window.getSize().y-120);
-    //bouttonquit->setScale(0.112,0.112);
+    bouttonquit->setPosition(bouttonjouer->getGlobalBounds().width+bouttonoption->getGlobalBounds().width+bouttonregle->getGlobalBounds().width-40,windowY-bouttonquit->getGlobalBounds().height-windowY/8);
+    bouttonquit->setScale(1.6,1.6);
+
+    bouttonretour->setTexture(&texture);
+    bouttonretour->setPosition(windowX-bouttonretour->getGlobalBounds().width*1.4,windowY-bouttonretour->getGlobalBounds().height-bouttonretour->getGlobalBounds().height/2);
+    bouttonretour->setScale(1.6,1.6);
+
+
     sf::Texture background;
     background.loadFromFile("images/131829.jpg");
     font.loadFromFile("EnchantedLandDS.otf");
@@ -454,14 +539,16 @@ int main()
     sf::Text titletext;
     sf::Text playtext;
     sf::Text quittext;
-    sf::Text resumetext;
+    sf::Text optiontext;
     sf::Text rulestext;
+    sf::Text retourtext;
+    sf::Text inforules;
     titletext.setFillColor(sf::Color(50,50,50));
     titletext.setOutlineColor(sf::Color(192,192,192));
     titletext.setOutlineThickness(2);
     titletext.setFont(font);
     titletext.setString("Dominion");
-    titletext.setPosition(114,138);
+    titletext.setPosition(windowX/2-titletext.getGlobalBounds().width,windowY/2-titletext.getGlobalBounds().height-windowY/8*1.2);
     titletext.setCharacterSize(60);
 
     playtext.setFillColor(sf::Color(50,50,50));
@@ -469,34 +556,71 @@ int main()
     playtext.setOutlineThickness(0.5);
     playtext.setFont(font);
     playtext.setString("Jouer");
-    playtext.setPosition(37,window.getSize().y-82);
-    playtext.setCharacterSize(20);
-    
-    quittext.setFillColor(sf::Color(50,50,50));
-    quittext.setOutlineColor(sf::Color(192,192,192));
-    quittext.setOutlineThickness(0.5);
-    quittext.setFont(font);
-    quittext.setString("Quitter");
-    quittext.setPosition(354+playtext.getGlobalBounds().width+resumetext.getGlobalBounds().width+rulestext.getGlobalBounds().width,window.getSize().y-82);
-    quittext.setCharacterSize(20);
-
-    resumetext.setFillColor(sf::Color(50,50,50));
-    resumetext.setOutlineColor(sf::Color(192,192,192));
-    resumetext.setOutlineThickness(0.5);
-    resumetext.setFont(font);
-    resumetext.setString("Reprendre");
-    resumetext.setPosition(87+playtext.getGlobalBounds().width,window.getSize().y-82);
-    resumetext.setCharacterSize(20);
+    playtext.setPosition(windowX/10,windowY-playtext.getGlobalBounds().height-windowY/8*0.96);
+    playtext.setCharacterSize(30);
+  
+    optiontext.setFillColor(sf::Color(50,50,50));
+    optiontext.setOutlineColor(sf::Color(192,192,192));
+    optiontext.setOutlineThickness(0.5);
+    optiontext.setFont(font);
+    optiontext.setString("Options");
+    optiontext.setPosition(windowX/10*3.51,windowY-optiontext.getGlobalBounds().height-windowY/8*0.94);
+    optiontext.setCharacterSize(30);
 
     rulestext.setFillColor(sf::Color(50,50,50));
     rulestext.setOutlineColor(sf::Color(192,192,192));
     rulestext.setOutlineThickness(0.5);
     rulestext.setFont(font);
     rulestext.setString("Regles");
-    rulestext.setPosition(137+playtext.getGlobalBounds().width+resumetext.getGlobalBounds().width,window.getSize().y-82);
-    rulestext.setCharacterSize(20);
+    rulestext.setPosition(windowX/10*3.5*1.79,windowY-rulestext.getGlobalBounds().height-windowY/8*0.94);
+    rulestext.setCharacterSize(30);
+
+    quittext.setFillColor(sf::Color(50,50,50));
+    quittext.setOutlineColor(sf::Color(192,192,192));
+    quittext.setOutlineThickness(0.5);
+    quittext.setFont(font);
+    quittext.setString("Quitter");
+    quittext.setPosition(windowX/10*3.5*2.47,windowY-quittext.getGlobalBounds().height-windowY/8*1.02);
+    quittext.setCharacterSize(30);
+
+
+    retourtext.setFillColor(sf::Color(50,50,50));
+    retourtext.setOutlineColor(sf::Color(192,192,192));
+    retourtext.setOutlineThickness(0.5);
+    retourtext.setFont(font);
+    retourtext.setString("Retour");
+    retourtext.setPosition(windowX-retourtext.getGlobalBounds().width*1.6-30,windowY-retourtext.getGlobalBounds().height*2.1-4);
+    retourtext.setCharacterSize(30);
+
+    inforules.setFillColor(sf::Color(50,50,50));
+    inforules.setOutlineColor(sf::Color(192,192,192));
+    inforules.setOutlineThickness(0.5);
+    inforules.setFont(font);
+    inforules.setString("Dominion est un jeu de construction progressive d'un deck de cartes. Partant d'un mini-deck, vous jouerez\n des actions et acheterez de nouvelles cartes, qui permettent d'obtenir encore plus d'argent et des points\nde victoire. Le but du jeu etant de gagner le plus de points de victoire possible.\nLe jeu se deroule en 3 phases : \n1)  Action : Chaque joueur joue une/des carte(s) action(s) de son deck. Chacune de ces cartes ont un effet.\n2) Achat : Chaque joueur achete une/des carte(s) sur le plateau de jeu.\n3) Nettoyage : Chaque joueur defausse les cartes joues et les cartes non-joues de sa main et pioche 5 cartes. \nLorsqu'un joueur a termine ces 3 phases, c'est au tour du joueur suivant\n\nAstuce : Les cartes de points de victoire ne servent a rien en cours de partie, et genent donc plutot votre\n progression. Par contre, elles sont evidemment indispensables pour gagner. \nC'est donc e vous de choisir le moment ideal pour les collectionner.");
+    inforules.setPosition(windowX/2-330,windowY/2-220);
+    inforules.setCharacterSize(15);
+
+
+    sf::RectangleShape* affiVictoire = new sf::RectangleShape(sf::Vector2f(400,500/4));
+    affiVictoire->setTexture(&texture);
+    affiVictoire->setPosition((windowX/2)-400,(windowY/2)-125);
+    affiVictoire->setScale(2,2);
+    sf::Text affiVictoireText;
+    affiVictoireText.setFillColor(sf::Color(50,50,50));
+    affiVictoireText.setOutlineColor(sf::Color(192,192,192));
+    affiVictoireText.setOutlineThickness(0.5);
+    affiVictoireText.setFont(font);
+    affiVictoireText.setPosition((windowX/2)-125,(windowY/2));
+    affiVictoireText.setCharacterSize(20);
+
+
+
+
     bool onMenu = true;
     bool onGame = false;
+    bool onOption= false;
+    bool onVictoire = false;
+    bool onRules = false;
     bool hover = false;
     bool lefthover=true;
     bool drag=false;
@@ -511,6 +635,12 @@ int main()
     bool chooseCard=false;
     int maxChooseCard=0;
     bool discardingInf=false;
+    int nombreJoueurs = 2;
+  
+
+
+
+
     sf::RectangleShape* dragCarte = new sf::RectangleShape();
     while (window.isOpen())
     {
@@ -529,10 +659,16 @@ int main()
                                     onMenu=false;
                                     onGame=true;
                                 }
-                                
+                                else if(bouttonoption->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))){
+                                    onMenu=false;
+                                    onOption=true;
+                                }
+                                else if(bouttonregle->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))){
+                                    onMenu=false;
+                                    onRules=true;
+                                }
                                 else if (bouttonquit->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))) // Exit button
                                 {
-                                    
                                     window.close();
                                 }
                             
@@ -540,14 +676,61 @@ int main()
                     }
                 }
             }
+             if(onRules){
+                if (event.type == sf::Event::MouseButtonPressed){
+                    if (event.mouseButton.button == sf::Mouse::Left){
+                        if (bouttonretour->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))) // New Game button
+                        {
+                            onMenu=true;
+                            onRules=false;
+                        }
+                    }
+                }
+            }
+            if(onVictoire){
+                 if (event.type == sf::Event::MouseButtonPressed &&  event.mouseButton.button == sf::Mouse::Left){
+                    if(bouttonretour->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))){
+                            onMenu=true;
+                            onVictoire=false;
+                        }
+                 }
+            }
+              if(onOption){
+                 if (event.type == sf::Event::MouseButtonPressed &&  event.mouseButton.button == sf::Mouse::Left){
+                        if(bouttonretour->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))){
+                            onMenu=true;
+                            onOption=false;
+                        }
+                        
+                        for(size_t i=0; i<buttonChoixJoueurs.size();i++){
+                            if(buttonChoixJoueurs.at(i)->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))){
+                                    plateaujeu->getOrdreDeJeu().clear();
+                                    std::vector<Joueur*> listeJoueurs {};
+                                    for(size_t j=0;j<=i;j++){
+                                        Humain* joueur1 = new Humain(std::to_string(j+1));
+                                        joueur1->setDeck(initDeck(plateaujeu));
+                                        joueur1->shuffle();
+                                        joueur1->piocher();
+                                        listeJoueurs.push_back(joueur1);
+                                    }
+                                    
+                                    plateaujeu->setOrdreDeJeu(listeJoueurs);
+                                    joueurTour=plateaujeu->getOrdreDeJeu().at(0);
+                                    joueurTour->setPhase(PhaseJeu::Action);
+                
+                                    nombreJoueurs=plateaujeu->getOrdreDeJeu().size();
+                                    mainCarte = loadMain(joueurTour->getMain(),allTextures,allFiles);
+                            }
+                        }
+                }
+            }
             if(onGame){
-
                 if(hover && !lefthover){
                     mainCarte[stocki]->setPosition(sf::Vector2f(mainCarte[stocki]->getPosition().x,mainCarte[stocki]->getPosition().y-20));
                     hover=false;
                 }
                 if(lefthover ){
-                    for(int i = 0 ; i < mainCarte.size() ; i++){
+                    for(size_t i = 0 ; i < mainCarte.size() ; i++){
                         if(mainCarte[i]->getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))){
                           
                                 lefthover=false;
@@ -599,7 +782,7 @@ int main()
                 if (event.type == sf::Event::MouseButtonPressed && sf::Mouse::isButtonPressed(sf::Mouse::Left)){
                      if (passerTourButton.getGlobalBounds().contains(sf::Vector2f(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y))){
                         if(joueurTour->getPhase()==PhaseJeu::Achat){
-                            if(indexJoueur==plateaujeu->getOrdreDeJeu().size()-1){
+                            if(((size_t) indexJoueur)==plateaujeu->getOrdreDeJeu().size()-1){
                                 indexJoueur=0;
                             }else{
                                 indexJoueur+=1;
@@ -612,9 +795,9 @@ int main()
                             joueurTour->setActions(1);
                             joueurTour->piocher();
                             mainCarte = loadMain(joueurTour->getMain(),allTextures,allFiles);
-                            Actions.setString("Actions : "+ std::to_string(joueurTour->getActions()));
-                            Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent())); 
-                            Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
+                            Actions.setString(std::to_string(joueurTour->getActions()));
+                            Argent.setString(std::to_string(joueurTour->getArgent())); 
+                            Achat.setString( std::to_string(joueurTour->getAchats()));
                             TourJoueur.setString("Tour du joueur : "+ std::to_string(indexJoueur+1));
                         }else if(joueurTour->getPhase()==PhaseJeu::Action ){
                             joueurTour->setPhase(PhaseJeu::Achat);
@@ -643,8 +826,8 @@ int main()
                                             joueurTour->gainMoney(-(carteAchete->getCout()));
                                             joueurTour->defausser(carteAchete);
                                             joueurTour->gainAchats(-1);
-                                            Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent()));
-                                            Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
+                                            Argent.setString(std::to_string(joueurTour->getArgent()));
+                                            Achat.setString(std::to_string(joueurTour->getAchats()));
                                             carteAchete->setCarteRestante(carteAchete->getCarteRestante()-1);
                                             textesAffiCartesRestantes = loadTextCartesRestantes(plateaujeu->getCartesDeJeu(),font2);
                                         }
@@ -671,8 +854,8 @@ int main()
                                             joueurTour->gainMoney(-(carteAchete->getCout()));
                                             joueurTour->defausser(carteAchete);
                                             joueurTour->gainAchats(-1);
-                                            Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
-                                            Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent()));
+                                            Achat.setString(std::to_string(joueurTour->getAchats()));
+                                            Argent.setString(std::to_string(joueurTour->getArgent()));
                                             carteAchete->setCarteRestante(carteAchete->getCarteRestante()-1);
                                             textesAffiCartesRestantesVT = loadTextCartesRestantesVT(plateaujeu->getCartesVicTre(),font2);
                                             if(carteAchete->getType()==TypeCarte::Victory){
@@ -690,7 +873,6 @@ int main()
                                             victoire* ra = static_cast<victoire*>(carteAchete);
                                             joueurTour->gainVictoryPoints(ra->getValeur());
                                             std::cout<<joueurTour->getVictoryPoints()<<",";
-                                           
                                     }
                                     chooseCard=false;
                                 }
@@ -704,7 +886,7 @@ int main()
                 }
                 if(event.type == sf::Event::MouseButtonReleased )
                 {     
-                    if(jouerCarte->getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y) && drag && !lefthover){
+                    if((jouerCarte->getGlobalBounds().contains(sf::Mouse::getPosition(window).x,sf::Mouse::getPosition(window).y)) && (drag) && (!lefthover)){
                             drag = false;
                             lefthover=true;
                             std::vector<Carte*> cstock = joueurTour->getMain();
@@ -712,7 +894,7 @@ int main()
                             int index = it - mainCarte.begin();
                             Carte* c = cstock.at(index);
                             if((c->getType()==TypeCarte::Money && joueurTour->getPhase() == PhaseJeu::Achat) 
-                            || c->getType()==TypeCarte::Action && joueurTour->getPhase() == PhaseJeu::Action){
+                            || (c->getType()==TypeCarte::Action && joueurTour->getPhase() == PhaseJeu::Action)){
                                 dragCarte->setPosition(sf::Vector2f(jouerCarte->getPosition().x,jouerCarte->getPosition().y));   
                                 jouerCarte=dragCarte;
                                 joueurTour->defausser(c);                                                        
@@ -753,13 +935,13 @@ int main()
                                     maxChooseCard=2;
                                 }
                                 
-                                Argent.setString("Argent : "+ std::to_string(joueurTour->getArgent()));
-                                Achat.setString("Achats : "+ std::to_string(joueurTour->getAchats()));
-                                Actions.setString("Actions : "+ std::to_string(joueurTour->getActions()));
+                                Argent.setString(std::to_string(joueurTour->getArgent()));
+                                Achat.setString( std::to_string(joueurTour->getAchats()));
+                                Actions.setString(std::to_string(joueurTour->getActions()));
                                 mainCarte.clear();
                                 mainCarte = loadMain(joueurTour->getMain(),allTextures,allFiles); 
                                 textesAffiCartesRestantes = loadTextCartesRestantes(plateaujeu->getCartesDeJeu(),font2);
-                                         textesAffiCartesRestantesVT = loadTextCartesRestantesVT(plateaujeu->getCartesVicTre(),font2);   
+                                textesAffiCartesRestantesVT = loadTextCartesRestantesVT(plateaujeu->getCartesVicTre(),font2);   
                             }else{
                                 drag = false;
                                 lefthover=true;
@@ -843,50 +1025,137 @@ int main()
                 }
                 
             }
+          
         }
-
+       
         if(plateaujeu->veriferVictoire()){
-            onMenu=true;
+            affiVictoireText.setString("Le joueur " + std::to_string(plateaujeu->quiVictoire()+1) + " a gagne la partie !");
+             plateaujeu = new PlateauDeJeu();
+            plateaujeu->setCartesDeJeu(initPlateau());
+            plateaujeu->setCartesVicTre(initVicTre());
+            joueurTour->setIdc();
+            Humain* joueur1 = new Humain("1");
+            joueur1->setDeck(initDeck(plateaujeu));
+            joueur1->shuffle();
+            joueur1->piocher();
+            Humain* joueur2 = new Humain("2");
+            joueur2->setDeck(initDeck(plateaujeu));
+            joueur2->shuffle();
+            joueur2->piocher();
+            joueurTour=joueur1;
+            joueurTour->setPhase(PhaseJeu::Action);
+            
+            std::vector<Joueur*> listeJoueurs {joueur1,joueur2};
+            plateaujeu->setOrdreDeJeu(listeJoueurs);
+            Argent.setString(std::to_string(joueurTour->getArgent()));
+            Achat.setString(std::to_string(joueurTour->getAchats()));
+            Actions.setString( std::to_string(joueurTour->getActions()));
+            strPasserPhase = setStringPhase(joueurTour);
+            passerTour.setString(strPasserPhase);
+            textesAffiCartesRestantes = loadTextCartesRestantes(plateaujeu->getCartesDeJeu(),font2);
+            textesAffiCartesRestantesVT = loadTextCartesRestantesVT(plateaujeu->getCartesVicTre(),font2);   
+            onVictoire=true;
             onGame=false;
+            
+            
         };
         window.clear(sf::Color::White);
+        if(onVictoire){
+            window.draw(backgroundS);
+            window.draw(*bouttonretour);
+            window.draw(retourtext);
+            window.draw(*affiVictoire);
+            window.draw(affiVictoireText);
+
+        }
         if(onMenu){
-           window.draw(backgroundS);
+            window.draw(backgroundS);
             //window.draw(shape);
             window.draw(*bouttontitre);
             window.draw(*bouttonjouer);
             window.draw(*bouttonquit);
             window.draw(*bouttonregle);
-            window.draw(*bouttonreprendre);
+            window.draw(*bouttonoption);
 
             window.draw(titletext);
             window.draw(playtext);
             //window.draw(Quittext);
-            window.draw(resumetext);
+            window.draw(optiontext);
             window.draw(rulestext);
             window.draw(quittext);
 
         }
+        if(onOption){
+            window.draw(backgroundS);
+            
+            for(size_t i = 0 ; i < buttonChoixJoueurs.size() ; i++)
+            {
+                if((i+1)==((size_t)nombreJoueurs)){
+                    buttonChoixJoueurs.at(i)->setFillColor(sf::Color(255,255,255));
+                }else{
+                    buttonChoixJoueurs.at(i)->setFillColor(sf::Color(light,light,light));
+                }
+                window.draw(*buttonChoixJoueurs[i]);
+            }
+             for(size_t i = 0 ; i < textChoixJoueurs.size() ; i++)
+            {
+                window.draw(*textChoixJoueurs[i]);
+            }
+            window.draw(*bouttonretour);
+            window.draw(retourtext);
+        }
+        if(onRules){
+            window.draw(backgroundS);
+            window.draw(*bouttonretour);
+            window.draw(*buttoninforules);
+            window.draw(retourtext);
+            window.draw(inforules);
+        }
         if(onGame){
+             window.draw(backgroundS);
+             if(joueurTour->getPhase()==PhaseJeu::Achat){
+            for(size_t i=0; i<plateaujeu->getCartesDeJeu().size();i++){
+               if((joueurTour->getArgent()<plateaujeu->getCartesDeJeu().at(i)->getCout()) || !(plateaujeu->getCartesDeJeu().at(i)->getCarteRestante()>0)){
+                     plateau.at(i)->setFillColor(sf::Color(light,light,light));
+               }else{
+                     plateau.at(i)->setFillColor(sf::Color(255,255,255));
+               }
+            }
+            for(size_t i=0; i<plateaujeu->getCartesVicTre().size();i++){
+                if((joueurTour->getArgent()<plateaujeu->getCartesVicTre().at(i)->getCout()) || !(plateaujeu->getCartesVicTre().at(i)->getCarteRestante()>0) ){
+                        moneyVictory.at(i)->setFillColor(sf::Color(light,light,light));
+                }else{
+                     moneyVictory.at(i)->setFillColor(sf::Color(255,255,255));
+                }
+                }
+            }
+            if(joueurTour->getPhase()==PhaseJeu::Action){
+                 for(size_t i=0; i<plateaujeu->getCartesVicTre().size();i++){
+                    moneyVictory.at(i)->setFillColor(sf::Color(255,255,255));
+                 }
+                  for(size_t i=0; i<plateaujeu->getCartesDeJeu().size();i++){
+                     plateau.at(i)->setFillColor(sf::Color(255,255,255));
+                  }
+            }
             if(drag){
                 dragCarte->setPosition(sf::Vector2f(sf::Mouse::getPosition(window).x - OX ,sf::Mouse::getPosition(window).y - OY)); 
             }
             window.draw(*jouerCarte);
-            for(int i = 0 ; i < plateau.size() ; i++)
+            for(size_t i = 0 ; i < plateau.size() ; i++)
             {
                 window.draw(*plateau[i]);
             }
-            for(int i = 0 ; i < moneyVictory.size() ; i++)
+            for(size_t i = 0 ; i < moneyVictory.size() ; i++)
             {
                 window.draw(*moneyVictory[i]);
             }
            
-            for(int i = 0 ; i < mainCarte.size() ; i++)
+            for(size_t i = 0 ; i < mainCarte.size() ; i++)
             {
                 window.draw(*mainCarte[i]);
             }
           
-            for(int i = 0 ; i < textesAffiCartesRestantes.size() ; i++)
+            for(size_t i = 0 ; i < textesAffiCartesRestantes.size() ; i++)
             {
                 window.draw(*textesAffiCartesRestantes.at(i));
             }
@@ -894,22 +1163,25 @@ int main()
             
             window.draw(passerTourButton);
             window.draw(passerTour);
-            window.draw(ActionsButton);
-            window.draw(Actions);
-            window.draw(ArgentButton);
+            //window.draw(ActionsButton);
+            //window.draw(ArgentButton);
+            window.draw(*bouttonplayerinfo);
+            window.draw(*buyicon);
+            window.draw(Achat);
+            window.draw(*coinicon);
             window.draw(Argent);
+            window.draw(*actionicon);
+            window.draw(Actions);
             window.draw(TourJoueurCase);
             window.draw(TourJoueur);
-
-            window.draw(AchatButton);
-            window.draw(Achat);
+            //window.draw(AchatButton);
 
             window.draw(deckPile);
             window.draw(deckText);
 
             window.draw(defaussePile);
             window.draw(defausseText);
-                for(int i = 0 ; i < textesAffiCartesRestantesVT.size() ; i++)
+                for(size_t i = 0 ; i < textesAffiCartesRestantesVT.size() ; i++)
             {
                 window.draw(*textesAffiCartesRestantesVT.at(i));
             }

@@ -11,7 +11,7 @@ public:
     // Constructeur
     victoire(std::string name, int   cost, int money, bool d):Carte(name,cost, TypeCarte::Victory,d),valeur(money){};
     // Méthode d'exécution de l'effet de la carte
-    ~victoire();
+    ~victoire()=default;
 
     void printc();
     int getCout();

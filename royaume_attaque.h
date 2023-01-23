@@ -8,7 +8,7 @@ private:
     /* data */
 public:
     royaume_attaque(/* args */);
-    ~royaume_attaque();
+    ~royaume_attaque()=default;
 };
 
 

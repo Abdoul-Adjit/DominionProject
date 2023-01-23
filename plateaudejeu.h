@@ -22,6 +22,7 @@ class PlateauDeJeu{
 
     public:
         PlateauDeJeu();
+        ~PlateauDeJeu()=default;
         int getIdp();
         void setOrdreDeJeu(std::vector<Joueur*>);
         std::vector<Joueur*> getOrdreDeJeu();
@@ -48,6 +49,7 @@ class PlateauDeJeu{
         //std::vector<int> getCartesRestantesJeu();
         //void setCartesRestantesJeu(std::vector<int>);
         bool veriferVictoire();
+        int quiVictoire();
         void setderniereCarteJoue(Carte* c);
         Carte* getderniereCarteJoue();
         std::vector<Carte*> getrebut(); 

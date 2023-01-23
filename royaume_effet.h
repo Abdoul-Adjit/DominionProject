@@ -8,6 +8,7 @@ private:
     /* data */
 public:
     royaume_effet(/* args */);
+      ~royaume_effet()=default;
 };
 
 

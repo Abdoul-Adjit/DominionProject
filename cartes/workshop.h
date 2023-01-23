@@ -12,6 +12,7 @@ public:
     void play(Joueur* j, PlateauDeJeu* P);
     workshop(std::string name, int cost,bool d, int action, int victory,
                 int buy, int card, int money):royaume_action(name, cost,d,action,victory,buy,card,money){};
+    ~workshop()=default;
 };
 
 

@@ -8,6 +8,7 @@ private:
     /* data */
 public:
     royaume(std::string name, int cost, bool d):Carte(name,cost, TypeCarte::Action,d){};
+    ~royaume()=default;
 };
 
 

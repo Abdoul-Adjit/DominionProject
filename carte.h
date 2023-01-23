@@ -28,6 +28,7 @@ class Carte{
         bool getdispo();
         void setCarteRestante(int);
         int getCarteRestante();
+         ~Carte()=default;
   
 };
 

@@ -12,7 +12,7 @@ class Humain : public Joueur{
         void printh();
         void setAchats(int);
         void setActions(int);
-    
+     ~Humain()=default;
 
 };
 

@@ -31,7 +31,9 @@ PhaseJeu Joueur::getPhase(){
 void Joueur::setPhase(PhaseJeu PJ){
     this->phaseJoueur=PJ;
 }
-
+void Joueur::setIdc(){
+    this->idc=0;
+}
 void Joueur::setVictoryPoints(int a){
     this->victoryPoints=a;
 }
@@ -235,7 +237,7 @@ void Joueur::suppDeMain(Carte* c){
 }
 void Joueur::piocher(){
     
-    for(int i=0;i<this->main.size();i++){
+    for(size_t i=0;i<this->main.size();i++){
         defausser(this->main.at(i));
     }
     this->main.clear();
